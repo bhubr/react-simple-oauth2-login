@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders defaults 1`] = `
+<button
+  onClick={[Function]}
+>
+  Sign in with OAuth2
+</button>
+`;
+
+exports[`Renders with \`buttonText\` 1`] = `
+<button
+  onClick={[Function]}
+>
+  Foo
+</button>
+`;
+
+exports[`Renders with \`className\` 1`] = `
+<button
+  className="foobar"
+  onClick={[Function]}
+>
+  Sign in with OAuth2
+</button>
+`;

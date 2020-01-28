@@ -1,0 +1,5 @@
+/.circleci
+/coverage
+/example
+/src/__tests__
+/yarn.lock
