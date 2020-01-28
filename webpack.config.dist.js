@@ -8,14 +8,14 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'GitHubLogin.js',
+    filename: 'OAuth2Login.js',
     libraryTarget: 'umd',
-    library: 'GitHubLogin'
+    library: 'OAuth2Login'
   },
   module: {
     rules: [{
       use: 'babel-loader',
-      test: /\.js$/,
+      test: /\.jsx?$/,
       exclude: /node_modules/
     }],
   },
@@ -24,7 +24,7 @@ module.exports = {
     'react-dom': 'ReactDOM'
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.jsx']
   },
   plugins: [
     new webpack.DefinePlugin({

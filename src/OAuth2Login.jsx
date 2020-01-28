@@ -15,7 +15,7 @@ class OAuth2Login extends Component {
 
   onBtnClick() {
     const {
-      buttonText, authorizationUrl, clientId, scope, provider, redirectUri,
+      buttonText, authorizationUrl, clientId, scope, redirectUri,
     } = this.props;
     const search = toQuery({
       client_id: clientId,
@@ -38,7 +38,7 @@ class OAuth2Login extends Component {
 
     this.onRequest();
     popup.then(
-      (data) => this.onSuccess({ ...data, provider }),
+      (data) => this.onSuccess(data),
       (error) => this.onFailure(error),
     );
   }
@@ -89,7 +89,6 @@ OAuth2Login.propTypes = {
   onRequest: PropTypes.func,
   onSuccess: PropTypes.func.isRequired,
   onFailure: PropTypes.func.isRequired,
-  provider: PropTypes.string.isRequired,
   redirectUri: PropTypes.string.isRequired,
   scope: PropTypes.string,
 };
