@@ -29,8 +29,8 @@ class OAuth2Login extends Component {
     const search = toQuery(payload);
     const width = 680;
     const height = 440;
-    const left = window.screenX + (window.outerWidth - width) / 2;
-    const top = window.screenY + (window.outerHeight - height) / 2.5;
+    const left = window.screenX + ((window.outerWidth - width) / 2);
+    const top = window.screenY + ((window.outerHeight - height) / 2.5);
     const popup = PopupWindow.open(
       buttonText,
       `${authorizationUrl}?${search}`,
@@ -57,8 +57,14 @@ class OAuth2Login extends Component {
       return this.onFailure(new Error('\'code\' not found'));
     }
 
+    const code = decodeURIComponent(data.code);
+    const result = { code };
+    if (data.scope) {
+      result.scope = decodeURIComponent(data.scope);
+    }
+
     const { onSuccess } = this.props;
-    return onSuccess(data);
+    return onSuccess(result);
   }
 
   onFailure(error) {
@@ -80,13 +86,14 @@ class OAuth2Login extends Component {
 }
 
 OAuth2Login.defaultProps = {
+  buttonText: 'Login',
   scope: '',
   state: '',
   onRequest: () => {},
 };
 
 OAuth2Login.propTypes = {
-  buttonText: PropTypes.string.isRequired,
+  buttonText: PropTypes.string,
   authorizationUrl: PropTypes.string.isRequired,
   children: PropTypes.node,
   className: PropTypes.string,

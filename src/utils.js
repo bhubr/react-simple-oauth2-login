@@ -4,9 +4,7 @@ export function toParams(query) {
   return q.split('&').reduce((values, param) => {
     const [key, value] = param.split('=');
 
-    values[key] = value;
-
-    return values;
+    return { ...values, [key]: value };
   }, {});
 }
 
