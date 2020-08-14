@@ -15,14 +15,18 @@ class OAuth2Login extends Component {
 
   onBtnClick() {
     const {
-      buttonText, authorizationUrl, clientId, scope, redirectUri,
+      buttonText, authorizationUrl, clientId, scope, redirectUri, state,
     } = this.props;
-    const search = toQuery({
+    const payload = {
       client_id: clientId,
       scope,
       redirect_uri: redirectUri,
       response_type: 'code',
-    });
+    };
+    if (state) {
+      payload.state = state;
+    }
+    const search = toQuery(payload);
     const width = 680;
     const height = 440;
     const left = window.screenX + (window.outerWidth - width) / 2;
@@ -77,6 +81,7 @@ class OAuth2Login extends Component {
 
 OAuth2Login.defaultProps = {
   scope: '',
+  state: '',
   onRequest: () => {},
 };
 
@@ -91,6 +96,7 @@ OAuth2Login.propTypes = {
   onFailure: PropTypes.func.isRequired,
   redirectUri: PropTypes.string.isRequired,
   scope: PropTypes.string,
+  state: PropTypes.string,
 };
 
 export default OAuth2Login;

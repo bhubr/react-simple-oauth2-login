@@ -1,6 +1,6 @@
 {
   "name": "react-simple-oauth2-login",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "A React Component for OAuth2 Login - adapted from react-github-login",
   "main": "dist/OAuth2Login.js",
   "scripts": {
