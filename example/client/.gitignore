@@ -1,4 +1,5 @@
 node_modules
 dist
 .cache
-settings.js
+settings-implicit.js
+settings-code.js
