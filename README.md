@@ -1,6 +1,6 @@
 # React Simple OAuth2 Login
 
-> :trophy: **Credits**: this components is based on [React GitHub Login](https://github.com/checkr/react-github-login) by [Checkr](https://checkr.com/).
+> :trophy: **Credits**: this component is based on [React GitHub Login](https://github.com/checkr/react-github-login) by [Checkr](https://checkr.com/).
 
 Simple React component for OAuth2 login.
 
