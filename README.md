@@ -10,38 +10,57 @@ React component for [GitHub login](https://developer.github.com/v3/oauth/).
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GitHubLogin from 'react-github-login';
+import OAuth2Login from 'react-simple-oauth2-login';
 
 const onSuccess = response => console.log(response);
 const onFailure = response => console.error(response);
 
 ReactDOM.render(
-  <GitHubLogin clientId="ac56fad434a3a3c1561e"
+  <OAuth2Login
+    authorizationUrl="https://accounts.spotify.com/authorize"
+    clientId="9822046hvr4lnhi7g07grihpefahy5jb"
+    redirectUri="http://localhost:3000/oauth-callback"
+    responseType="token"
     onSuccess={onSuccess}
     onFailure={onFailure}/>,
-  document.getElementById('example')
+  document.getElementById('root')
 );
 ```
 
 ### Props
 
+#### `authorizationUrl`
+
+`{string}` _required_
+
+Base URL of the provider's authorization screen.
+
 #### `clientId`
 
 `{string}` _required_
 
-Client ID for GitHub OAuth application.
+Client ID for OAuth application.
 
 #### `redirectUri`
 
-`{string}`
+`{string}` _required_
 
-Registered redirect URI for GitHub OAuth application.
+Registered redirect URI for OAuth application.
+
+#### `responseType`
+
+`{string}` _required_
+
+Determines the type of OAuth2 flow. Two possible values:
+
+* `code`: Authorization Code flow. You need a server-side app to use this.
+* `token`: Implicit Grant flow.
 
 #### `scope`
 
 `{string}`
 
-Scope for GitHub OAuth application. Defaults to `user:email`.
+Scope for OAuth application. Example: `user:email` (GitHub).
 
 #### `className`
 

@@ -1,6 +1,6 @@
 {
   "name": "react-simple-oauth2-login",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "A React Component for OAuth2 Login - adapted from react-github-login",
   "main": "dist/OAuth2Login.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/checkr/react-github-login.git"
+    "url": "https://github.com/bhubr/react-simple-oauth2-login.git"
   },
   "keywords": [
     "react",
