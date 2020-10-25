@@ -1,16 +1,17 @@
 import { toParams, toQuery } from './utils';
 
 class PopupWindow {
-  constructor(id, url, options = {}) {
+  constructor(id, url, popupOptions = {}, otherOptions = {}) {
     this.id = id;
     this.url = url;
-    this.options = options;
+    this.popupOptions = popupOptions;
+    this.locationKey = otherOptions.locationKey;
   }
 
   open() {
-    const { url, id, options } = this;
+    const { url, id, popupOptions } = this;
 
-    this.window = window.open(url, id, toQuery(options, ','));
+    this.window = window.open(url, id, toQuery(popupOptions, ','));
   }
 
   close() {
@@ -27,16 +28,23 @@ class PopupWindow {
           if (!popup || popup.closed !== false) {
             this.close();
 
-            reject(new Error('The popup was closed'));
+            reject(new Error('The popup was closed for an unexpected reason'));
 
             return;
           }
 
           if (popup.location.href === this.url || popup.location.pathname === 'blank') {
+            // location unchanged, still polling
             return;
           }
 
-          const params = toParams(popup.location.search);
+          if (!['search', 'hash'].includes(this.locationKey)) {
+            reject(new Error(`Cannot get data from location.${this.locationKey}, check the responseType prop`));
+            this.close();
+            return;
+          }
+          const locationValue = popup.location[this.locationKey];
+          const params = toParams(locationValue);
           resolve(params);
 
           this.close();
@@ -62,7 +70,7 @@ class PopupWindow {
   }
 
   catch(...args) {
-    return this.promise.then(...args);
+    return this.promise.catch(...args);
   }
 
   static open(...args) {
