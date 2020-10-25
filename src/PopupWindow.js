@@ -26,15 +26,15 @@ class PopupWindow {
           const popup = this.window;
 
           if (!popup || popup.closed !== false) {
-            console.log('closed')
             this.close();
 
-            reject(new Error('The popup was closed'));
+            reject(new Error('The popup was closed for an unexpected reason'));
 
             return;
           }
 
           if (popup.location.href === this.url || popup.location.pathname === 'blank') {
+            // location unchanged, still polling
             return;
           }
 

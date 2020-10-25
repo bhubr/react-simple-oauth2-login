@@ -69,6 +69,7 @@ class OAuth2Login extends Component {
     const { responseType, onSuccess } = this.props;
     const responseKey = responseTypeDataKeys[responseType];
     if (!data[responseKey]) {
+      console.error('received data', data);
       return this.onFailure(new Error(`'${responseKey}' not found in received data`));
     }
 
