@@ -7,7 +7,7 @@ export const authorizationUrl = '';
 
 // To get a client ID, create an app, e.g.
 // GitHub (authorization code grant only): https://github.com/settings/developers
-// Spotify (implicit grant): https://developer.spotify.com/dashboard/applications
+// Spotify (implicit grant & auth code): https://developer.spotify.com/dashboard/applications
 export const clientId = '';
 
 // You get to configure this in your OAuth settings

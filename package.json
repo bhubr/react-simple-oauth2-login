@@ -4,8 +4,7 @@
   "description": "A React Component for OAuth2 Login - adapted from react-github-login",
   "main": "dist/OAuth2Login.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack -p --config webpack.config.dist.js",
-    "start": "NODE_ENV=development webpack-dev-server --config webpack.config.js",
+    "build": "NODE_ENV=production webpack -p",
     "lint": "eslint src",
     "test": "jest"
   },
@@ -48,7 +47,6 @@
     "react-dom": "^16.0.0",
     "react-test-renderer": "^15.4.1",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-cli": "^3.3.10"
   }
 }
