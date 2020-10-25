@@ -4,6 +4,16 @@ import PropTypes from 'prop-types';
 import PopupWindow from './PopupWindow';
 import { toQuery } from './utils';
 
+const responseTypeLocationKeys = {
+  code: 'search',
+  token: 'hash',
+};
+
+const responseTypeDataKeys = {
+  code: 'code',
+  token: 'access_token',
+};
+
 class OAuth2Login extends Component {
   constructor(props) {
     super(props);
@@ -15,13 +25,13 @@ class OAuth2Login extends Component {
 
   onBtnClick() {
     const {
-      buttonText, authorizationUrl, clientId, scope, redirectUri, state,
+      buttonText, authorizationUrl, clientId, scope, redirectUri, state, responseType,
     } = this.props;
     const payload = {
       client_id: clientId,
       scope,
       redirect_uri: redirectUri,
-      response_type: 'code',
+      response_type: responseType,
     };
     if (state) {
       payload.state = state;
@@ -31,20 +41,23 @@ class OAuth2Login extends Component {
     const height = 440;
     const left = window.screenX + ((window.outerWidth - width) / 2);
     const top = window.screenY + ((window.outerHeight - height) / 2.5);
+    const locationKey = responseTypeLocationKeys[responseType];
     const popup = PopupWindow.open(
       buttonText,
       `${authorizationUrl}?${search}`,
       {
         height, width, top, left,
       },
+      {
+        locationKey,
+      },
     );
     this.popup = popup;
 
     this.onRequest();
-    popup.then(
-      (data) => this.onSuccess(data),
-      (error) => this.onFailure(error),
-    );
+    popup
+      .then(this.onSuccess)
+      .catch(this.onFailure);
   }
 
   onRequest() {
@@ -53,23 +66,18 @@ class OAuth2Login extends Component {
   }
 
   onSuccess(data) {
-    if (!data.code) {
-      return this.onFailure(new Error('\'code\' not found'));
+    const { responseType, onSuccess } = this.props;
+    const responseKey = responseTypeDataKeys[responseType];
+    if (!data[responseKey]) {
+      return this.onFailure(new Error(`'${responseKey}' not found in received data`));
     }
 
-    const code = decodeURIComponent(data.code);
-    const result = { code };
-    if (data.scope) {
-      result.scope = decodeURIComponent(data.scope);
-    }
-
-    const { onSuccess } = this.props;
-    return onSuccess(result);
+    return onSuccess(data);
   }
 
   onFailure(error) {
-    const { onRequest } = this.props;
-    onRequest(error);
+    const { onFailure } = this.props;
+    onFailure(error);
   }
 
   render() {
@@ -89,19 +97,22 @@ OAuth2Login.defaultProps = {
   buttonText: 'Login',
   scope: '',
   state: '',
+  className: '',
+  children: null,
   onRequest: () => {},
 };
 
 OAuth2Login.propTypes = {
-  buttonText: PropTypes.string,
   authorizationUrl: PropTypes.string.isRequired,
-  children: PropTypes.node,
-  className: PropTypes.string,
   clientId: PropTypes.string.isRequired,
-  onRequest: PropTypes.func,
+  redirectUri: PropTypes.string.isRequired,
+  responseType: PropTypes.oneOf(['code', 'token']).isRequired,
   onSuccess: PropTypes.func.isRequired,
   onFailure: PropTypes.func.isRequired,
-  redirectUri: PropTypes.string.isRequired,
+  buttonText: PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  onRequest: PropTypes.func,
   scope: PropTypes.string,
   state: PropTypes.string,
 };

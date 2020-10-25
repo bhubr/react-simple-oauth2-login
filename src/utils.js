@@ -1,10 +1,10 @@
 export function toParams(query) {
-  const q = query.replace(/^\?/, '');
+  const q = query.replace(/^(\?|#)/, '');
 
   return q.split('&').reduce((values, param) => {
     const [key, value] = param.split('=');
 
-    return { ...values, [key]: value };
+    return { ...values, [key]: decodeURIComponent(value) };
   }, {});
 }
 
