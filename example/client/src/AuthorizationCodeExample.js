@@ -5,13 +5,15 @@ import {
   authorizationUrl,
   clientId,
   redirectUri,
+  serverUrl
 } from './settings-code';
 
 export default function AuthorizationCodeExample() {
   const [accessToken, setAccessToken] = useState(null);
   const [error, setError] = useState(null);
 
-  const onSuccess = ({ code }) => fetch(`http://localhost:5000/github/token?code=${code}`)
+  // You can test this with a GitHub OAuth2 app (provided test server supports GitHub and Spotify)
+  const onSuccess = ({ code }) => fetch(`${serverUrl}/github/token?code=${code}`)
     .then(res => res.json())
     .then(data => setAccessToken(data.access_token));
 

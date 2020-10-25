@@ -14,3 +14,7 @@ export const clientId = '';
 // If you use React Router, the relative path (empty here) can match
 // that of a route which displays nothing
 export const redirectUri = 'http://localhost:1234/';
+
+// Authorization code flow only: base URL for your server
+// The one provided below is that of the sample Express server provided
+export const serverUrl = 'http://localhost:5000';
