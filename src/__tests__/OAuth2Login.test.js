@@ -31,6 +31,15 @@ test('Renders with `buttonText`', () => {
   expect(tree).toMatchSnapshot();
 });
 
+test('Renders with custom render function', () => {
+  const component = renderer.create(
+    <OAuth2Login clientId="foo" redirectUri="http://foo.test/auth/OAuth2" render={(renderProps) => <div className={renderProps.className}><a href onClick={renderProps.onClick}>{renderProps.buttonText}</a></div>} />,
+  );
+  const tree = component.toJSON();
+
+  expect(tree).toMatchSnapshot();
+});
+
 test('Opens OAuth dialog', () => {
   const clientId = 'foo';
   const redirectUri = 'http://foo.test/auth/OAuth2';

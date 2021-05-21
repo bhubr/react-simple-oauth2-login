@@ -125,6 +125,13 @@ CSS class for the login button.
 
 Text content for the login button.
 
+#### `render`
+
+`{function}`
+
+A custom rendering function. An object containing properties for rendering will be passed in as an
+argument, e.g. `{buttonText: "...", children: [...], className: "...", onClick: func}`.
+
 #### `onRequest`
 
 `{function}`
