@@ -82,13 +82,15 @@ class OAuth2Login extends Component {
   }
 
   render() {
-    const { className, buttonText, children } = this.props;
-    const attrs = { onClick: this.onBtnClick };
+    const { className, buttonText, children, render } = this.props;
 
+    if (render) {
+      return render({ className, buttonText, children, onClick: this.onBtnClick });
+    }
+    const attrs = { onClick: this.onBtnClick };
     if (className) {
       attrs.className = className;
     }
-
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <button type="button" {...attrs}>{ children || buttonText }</button>;
   }
@@ -100,6 +102,7 @@ OAuth2Login.defaultProps = {
   state: '',
   className: '',
   children: null,
+  render: null,
   onRequest: () => {},
 };
 
@@ -113,6 +116,7 @@ OAuth2Login.propTypes = {
   buttonText: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
+  render: PropTypes.func,
   onRequest: PropTypes.func,
   scope: PropTypes.string,
   state: PropTypes.string,
