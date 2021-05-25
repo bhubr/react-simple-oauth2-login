@@ -25,7 +25,7 @@ class OAuth2Login extends Component {
 
   onBtnClick() {
     const {
-      buttonText, authorizationUrl, clientId, scope, redirectUri, state, responseType,
+      buttonText, authorizationUrl, clientId, scope, redirectUri, state, responseType, isCrossOrigin
     } = this.props;
     const payload = {
       client_id: clientId,
@@ -50,6 +50,7 @@ class OAuth2Login extends Component {
       },
       {
         locationKey,
+        isCrossOrigin
       },
     );
     this.popup = popup;
@@ -68,7 +69,9 @@ class OAuth2Login extends Component {
   onSuccess(data) {
     const { responseType, onSuccess } = this.props;
     const responseKey = responseTypeDataKeys[responseType];
-    if (!data[responseKey]) {
+
+    // Cross origin requests will already handle this, let's just return the data
+    if (!this.props.isCrossOrigin && !data[responseKey]) {
       console.error('received data', data);
       return this.onFailure(new Error(`'${responseKey}' not found in received data`));
     }
@@ -103,6 +106,7 @@ OAuth2Login.defaultProps = {
   className: '',
   children: null,
   render: null,
+  isCrossOrigin: false,
   onRequest: () => {},
 };
 
@@ -117,6 +121,7 @@ OAuth2Login.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   render: PropTypes.func,
+  isCrossOrigin: PropTypes.bool,
   onRequest: PropTypes.func,
   scope: PropTypes.string,
   state: PropTypes.string,
