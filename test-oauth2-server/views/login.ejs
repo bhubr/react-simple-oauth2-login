@@ -32,15 +32,18 @@
           <h1>Login</h1>
           <p>Hint: two users are registered, both with password <code>pass</code>:</p>
           <ul>
-            <li><code>peggy.ross@example.com</code></li>
-            <li><code>dwight.gonzales@example.com</code></li>
+            <li><code>peggy@example.com</code></li>
+            <li><code>dwight@example.com</code></li>
           </ul>
-          <form method="POST">
+          <form action="/auth/login" method="POST">
             <fieldset>
               <label for="emailField">Email</label>
               <input type="email" name="email" placeholder="johndoe@example.com" id="emailField">
               <label for="passwordField">Email</label>
               <input type="password" name="password" id="passwordField">
+              <% if (redirect) { %>
+              <input type="hidden" name="redirect" value="<%= redirect %>">
+              <% } %>
               <button class="button-primary" type="submit">Login</button>
             </fieldset>
           </form>

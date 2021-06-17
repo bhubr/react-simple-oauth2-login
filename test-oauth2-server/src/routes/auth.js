@@ -3,11 +3,18 @@ const passport = require('passport');
 
 const router = express.Router();
 
-router.get('/login', (req, res) => res.render('login'));
+router.get('/login', (req, res) => {
+  const { redirect } = req.query;
+  res.render('login', { redirect });
+});
 
 router.post('/login',
   passport.authenticate('local', { failureRedirect: '/auth/login?error=1' }),
-  (req, res) => res.redirect('/'));
+  (req, res) => {
+    const { redirect: redirectTo } = req.body;
+    res.redirect(redirectTo || '/');
+  },
+);
 
 router.get('/logout', (req, res) => {
   res.clearCookie('connect.sid');

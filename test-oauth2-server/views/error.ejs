@@ -42,21 +42,8 @@
     </nav>
     <main>
       <div class="container">
-        <h1>Dummy OAuth2 Server</h1>
-        <% if (user) { %>
-        <h3>User info</h3>
-        <p>Logged-in as <%= user.name %></p>
-        <img alt="<%= user.name %>" src="<%= user.picture %>" />
-        <a href="/auth/logout">Logout</a></p>
-        <h3>User apps</h3>
-        <ul>
-          <% userApps.forEach(function(app){ %>
-            <li><%= app.id %> <%= app.name %> <%= app.clientId %></li>
-          <% }); %>
-        </ul>
-        <% } else { %>
-        <p>Not logged-in. <a href="/auth/login">Login</a></p>
-        <% } %>
+        <h1>Error!!</h1>
+        <p><%= err.message %></p>
       </div>
     </main>
   </body>
