@@ -60,7 +60,7 @@ passport.deserializeUser((id, done) => {
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   res.status(status);
-  res.render('error', { error: err });
+  res.render('error', { err });
 });
 
 process.on('uncaughtException', (error) => {
