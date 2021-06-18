@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "rsnyman",
+      "name": "Raoul Snyman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1080682?v=4",
+      "profile": "https://github.com/rsnyman",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "react-simple-oauth2-login",
+  "projectOwner": "bhubr",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
