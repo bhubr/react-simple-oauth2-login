@@ -187,6 +187,12 @@ Callback for errors raised during login.
 
 ## ChangeLog
 
+* v0.4.0 (published June 18th, 2021)
+
+    * **Support cross-origin auth flow**: previous versions worked only if the redirect URI was derived from the frontend app's URL; now you can have a redirect URI poiting to your backend app. Thanks (again) to [rsnyman](https://github.com/rsnyman).
+    * Update dev dependencies: ESLint, Enzyme
+    * Restore unit tests to working state
+    * End-to-end testing of Authorization Code flow (using a Node-based OAuth2 server)
 * v0.3.0 (Changes made in May, 2021 - published June 18th, 2021) - thanks to [rsnyman](https://github.com/rsnyman) for both additions:
 
     * Add `render` prop to customize the login button's appearance
