@@ -1,6 +1,6 @@
 # React Simple OAuth2 Login
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 > :trophy: **Credits**: this component is based on [React GitHub Login](https://github.com/checkr/react-github-login) by [Checkr](https://checkr.com/).
@@ -234,8 +234,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/rsnyman"><img src="https://avatars.githubusercontent.com/u/1080682?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Raoul Snyman</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=rsnyman" title="Code">💻</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=rsnyman" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/tennox"><img src="https://avatars.githubusercontent.com/u/2084639?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Manuel</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/issues?q=author%3Atennox" title="Bug reports">🐛</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=tennox" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Coow"><img src="https://avatars.githubusercontent.com/u/16673606?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Coow</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=Coow" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/tennox"><img src="https://avatars.githubusercontent.com/u/2084639?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Manuel</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/issues?q=author%3Atennox" title="Bug reports">🐛</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=tennox" title="Code">💻</a></td>
+    <td align="center"><a href="https://developpeur-web-toulouse.fr/"><img src="https://avatars.githubusercontent.com/u/15270070?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benoît Hubert</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=bhubr" title="Code">💻</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=bhubr" title="Documentation">📖</a> <a href="#example-bhubr" title="Examples">💡</a> <a href="#maintenance-bhubr" title="Maintenance">🚧</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=bhubr" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
