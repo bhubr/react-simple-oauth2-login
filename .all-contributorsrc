@@ -6,16 +6,6 @@
   "commit": false,
   "contributors": [
     {
-      "login": "tennox",
-      "name": "Manuel",
-      "avatar_url": "https://avatars.githubusercontent.com/u/2084639?v=4",
-      "profile": "https://github.com/tennox",
-      "contributions": [
-        "bug",
-        "code"
-      ]
-    },
-    {
       "login": "rsnyman",
       "name": "Raoul Snyman",
       "avatar_url": "https://avatars.githubusercontent.com/u/1080682?v=4",
@@ -23,6 +13,25 @@
       "contributions": [
         "code",
         "doc"
+      ]
+    },
+    {
+      "login": "Coow",
+      "name": "Coow",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16673606?v=4",
+      "profile": "https://github.com/Coow",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "tennox",
+      "name": "Manuel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2084639?v=4",
+      "profile": "https://github.com/tennox",
+      "contributions": [
+        "bug",
+        "code"
       ]
     }
   ],
