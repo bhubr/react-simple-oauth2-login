@@ -152,6 +152,10 @@ Callback for errors raised during login.
 
 ## ChangeLog
 
+* v0.3.0 (Changes made in May, 2021 - published June 18th, 2021) - thanks to [rsnyman](https://github.com/rsnyman) for both additions:
+
+    * Add `render` prop to customize the login button's appearance
+    * Add MIT license
 * v0.2.0 (October 25th, 2020):
 
     * Add support for Implicit Grant flow

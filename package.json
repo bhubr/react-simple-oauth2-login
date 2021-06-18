@@ -1,12 +1,21 @@
 {
   "name": "react-simple-oauth2-login",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A React Component for OAuth2 Login - adapted from react-github-login",
-  "main": "dist/OAuth2Login.js",
+  "main": "dist/index.js",
+  "files": ["README.md", "dist/**/*"],
+  "author": "Benoît Hubert <benoithubert@gmail.com> (https://developpeur-web-toulouse.fr/)",
+  "contributors": [
+    {
+      "name": "Raoul Snyman", "url": "https://github.com/rsnyman"
+    }
+  ],
   "scripts": {
     "build": "NODE_ENV=production webpack -p",
     "lint": "eslint src",
-    "test": "jest"
+    "test": "jest",
+    "transpile": "babel src -d dist --ignore src/__tests__/**/*.js",
+    "prepublishOnly": "npm run transpile"
   },
   "repository": {
     "type": "git",
