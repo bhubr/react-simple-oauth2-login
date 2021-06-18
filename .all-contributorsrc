@@ -46,6 +46,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "JureSotosek",
+      "name": "Jure Sotosek",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16746406?v=4",
+      "profile": "http://juresotosek.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
