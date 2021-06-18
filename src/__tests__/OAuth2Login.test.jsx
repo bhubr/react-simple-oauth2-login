@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme, { shallow } from 'enzyme';
-import OAuth2Login from '../OAuth2Login.jsx';
+import OAuth2Login from '../OAuth2Login';
 
 Enzyme.configure({ adapter: new Adapter() });
 

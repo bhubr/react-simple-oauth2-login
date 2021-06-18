@@ -25,7 +25,16 @@ class OAuth2Login extends Component {
 
   onBtnClick() {
     const {
-      buttonText, authorizationUrl, clientId, scope, redirectUri, state, responseType, popupWidth, popupHeight, isCrossOrigin
+      buttonText,
+      authorizationUrl,
+      clientId,
+      scope,
+      redirectUri,
+      state,
+      responseType,
+      popupWidth,
+      popupHeight,
+      isCrossOrigin,
     } = this.props;
     const payload = {
       client_id: clientId,
@@ -50,7 +59,7 @@ class OAuth2Login extends Component {
       },
       {
         locationKey,
-        isCrossOrigin
+        isCrossOrigin,
       },
     );
     this.popup = popup;
@@ -67,11 +76,11 @@ class OAuth2Login extends Component {
   }
 
   onSuccess(data) {
-    const { responseType, onSuccess } = this.props;
+    const { responseType, onSuccess, isCrossOrigin } = this.props;
     const responseKey = responseTypeDataKeys[responseType];
 
     // Cross origin requests will already handle this, let's just return the data
-    if (!this.props.isCrossOrigin && !data[responseKey]) {
+    if (!isCrossOrigin && !data[responseKey]) {
       console.error('received data', data);
       return this.onFailure(new Error(`'${responseKey}' not found in received data`));
     }
@@ -85,10 +94,14 @@ class OAuth2Login extends Component {
   }
 
   render() {
-    const { id, className, buttonText, children, render } = this.props;
+    const {
+      id, className, buttonText, children, render,
+    } = this.props;
 
     if (render) {
-      return render({ className, buttonText, children, onClick: this.onBtnClick });
+      return render({
+        className, buttonText, children, onClick: this.onBtnClick,
+      });
     }
     const attrs = { onClick: this.onBtnClick };
     if (id) {

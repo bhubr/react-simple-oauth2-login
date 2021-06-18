@@ -12,16 +12,18 @@ class PopupWindow {
   }
 
   handlePostMessage(event) {
-    if (event.data.message === "deliverResult") {
+    if (event.data.message === 'deliverResult') {
       this.response = event.data.result;
     }
   }
 
   open() {
-    const { url, id, popupOptions, isCrossOrigin } = this;
+    const {
+      url, id, popupOptions, isCrossOrigin,
+    } = this;
 
     if (isCrossOrigin) {
-      window.addEventListener("message", this.handlePostMessage);
+      window.addEventListener('message', this.handlePostMessage);
     }
 
     this.window = window.open(url, id, toQuery(popupOptions, ','));
@@ -30,7 +32,7 @@ class PopupWindow {
   close() {
     this.cancel();
     this.window.close();
-    window.removeEventListener("message", this.handlePostMessage);
+    window.removeEventListener('message', this.handlePostMessage);
   }
 
   poll() {
@@ -52,13 +54,11 @@ class PopupWindow {
             if (this.response) {
               resolve(this.response);
               this.close();
-            }
-            else {
-              popup.postMessage({message: "requestResult"}, "*");
+            } else {
+              popup.postMessage({ message: 'requestResult' }, '*');
               return;
             }
-          }
-          else {
+          } else {
             if (popup.location.href === this.url || popup.location.pathname === 'blank') {
               // location unchanged, still polling
               return;
@@ -78,8 +78,7 @@ class PopupWindow {
           // Log the error to the console but remain silent
           if (error.name === 'SecurityError' && error.message.includes('Blocked a frame with origin')) {
             console.warn('Encountered a cross-origin error, is your authorization URL on a different server? Use the "isCrossOrigin" property, see documentation for details.');
-          }
-          else {
+          } else {
             console.error(error);
           }
         }
