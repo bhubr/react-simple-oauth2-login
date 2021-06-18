@@ -7,7 +7,7 @@ const apps = [
     clientSecret: 'peggy-secret',
     redirectUris: [
       'http://localhost:1234/oauth/callback',
-      'http://localhost:8000/oauth/callback',
+      'http://localhost:5000/oauth/callback',
     ],
     scopes: {
       'user-email': 'Read your email',
@@ -23,7 +23,7 @@ const apps = [
     clientSecret: 'dwight-secret',
     redirectUris: [
       'http://localhost:1234/oauth/callback',
-      'http://localhost:8000/oauth/callback',
+      'http://localhost:5000/oauth/callback',
     ],
     scopes: ['user-email'],
     grants: ['authorization_code'],
