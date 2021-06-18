@@ -1,0 +1,5 @@
+{
+  "preset": ["react-app", {
+    "absoluteRuntime": false
+  }]
+}
