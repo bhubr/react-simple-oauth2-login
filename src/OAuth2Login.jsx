@@ -123,7 +123,7 @@ OAuth2Login.defaultProps = {
   className: '',
   children: null,
   popupWidth: 680,
-  popupHeight: 800,
+  popupHeight: 680,
   render: null,
   isCrossOrigin: false,
   onRequest: () => {},

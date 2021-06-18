@@ -154,8 +154,7 @@ Width for the popup window upon clicking the button in px. Default: `680`.
 
 `{number}`
 
-Height for the popup window upon clicking the button in px. Default: `440`.
-
+Height for the popup window upon clicking the button in px. Default: `680`.
 
 #### `className`
 
@@ -202,6 +201,11 @@ Callback for successful login. An object will be passed as an argument to the ca
 Callback for errors raised during login.
 
 ## ChangeLog
+
+* v0.5.0 (published June 18th, 2021)
+
+    * Increase default popup's height. Thanks to [tennox](https://github.com/tennox)
+    * Provide optional `popupWidth` and `popupHeight` props to override the defaults. Thanks to [Coow](https://github.com/Coow)
 
 * v0.4.0 (published June 18th, 2021)
 
