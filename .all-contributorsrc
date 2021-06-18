@@ -6,6 +6,19 @@
   "commit": false,
   "contributors": [
     {
+      "login": "bhubr",
+      "name": "Benoît Hubert",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15270070?v=4",
+      "profile": "https://developpeur-web-toulouse.fr/",
+      "contributions": [
+        "code",
+        "doc",
+        "example",
+        "maintenance",
+        "test"
+      ]
+    },
+    {
       "login": "rsnyman",
       "name": "Raoul Snyman",
       "avatar_url": "https://avatars.githubusercontent.com/u/1080682?v=4",
@@ -32,19 +45,6 @@
       "contributions": [
         "bug",
         "code"
-      ]
-    },
-    {
-      "login": "bhubr",
-      "name": "Benoît Hubert",
-      "avatar_url": "https://avatars.githubusercontent.com/u/15270070?v=4",
-      "profile": "https://developpeur-web-toulouse.fr/",
-      "contributions": [
-        "code",
-        "doc",
-        "example",
-        "maintenance",
-        "test"
       ]
     }
   ],
