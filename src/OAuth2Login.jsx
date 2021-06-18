@@ -82,12 +82,15 @@ class OAuth2Login extends Component {
   }
 
   render() {
-    const { className, buttonText, children, render } = this.props;
+    const { id, className, buttonText, children, render } = this.props;
 
     if (render) {
       return render({ className, buttonText, children, onClick: this.onBtnClick });
     }
     const attrs = { onClick: this.onBtnClick };
+    if (id) {
+      attrs.id = id;
+    }
     if (className) {
       attrs.className = className;
     }
@@ -97,6 +100,7 @@ class OAuth2Login extends Component {
 }
 
 OAuth2Login.defaultProps = {
+  id: undefined,
   buttonText: 'Login',
   scope: '',
   state: '',
@@ -107,6 +111,7 @@ OAuth2Login.defaultProps = {
 };
 
 OAuth2Login.propTypes = {
+  id: PropTypes.string,
   authorizationUrl: PropTypes.string.isRequired,
   clientId: PropTypes.string.isRequired,
   redirectUri: PropTypes.string.isRequired,

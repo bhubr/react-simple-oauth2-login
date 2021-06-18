@@ -6,12 +6,13 @@ require('dotenv').config();
 const { port, oauth } = require('./settings');
 
 const app = express();
+app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:1234'
+  origin: 'http://localhost:1234',
 }));
 
-app.get('/spotify/token', (req, res) => {
-  const { code } = req.query;
+app.post('/spotify/token', (req, res) => {
+  const { code } = req.body;
   const { tokenUrl, clientId, clientSecret, redirectUri } = oauth;
   // Spotify requires us to send client id and client secret, in base64, as authorization header
   const authString = Buffer
@@ -34,8 +35,8 @@ app.get('/spotify/token', (req, res) => {
     });
 });
 
-app.get('/github/token', (req, res) => {
-  const { code } = req.query;
+app.post('/github/token', (req, res) => {
+  const { code } = req.body;
   const { tokenUrl, clientId, clientSecret, redirectUri } = oauth;
   // GitHub wants everything in an url-encoded body
   const payload = qs.stringify({
@@ -62,6 +63,6 @@ app.listen(port, (err) => {
     console.error('Something wrong happened', err);
   }
   else {
-    console.log('server listening');
+    console.log(`server listening on port ${port}`);
   }
 });
