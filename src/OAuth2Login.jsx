@@ -25,7 +25,7 @@ class OAuth2Login extends Component {
 
   onBtnClick() {
     const {
-      buttonText, authorizationUrl, clientId, scope, redirectUri, state, responseType, isCrossOrigin
+      buttonText, authorizationUrl, clientId, scope, redirectUri, state, responseType, popupWidth, popupHeight, isCrossOrigin
     } = this.props;
     const payload = {
       client_id: clientId,
@@ -37,8 +37,8 @@ class OAuth2Login extends Component {
       payload.state = state;
     }
     const search = toQuery(payload);
-    const width = 680;
-    const height = 440;
+    const width = popupWidth;
+    const height = popupHeight;
     const left = window.screenX + ((window.outerWidth - width) / 2);
     const top = window.screenY + ((window.outerHeight - height) / 2.5);
     const locationKey = responseTypeLocationKeys[responseType];
@@ -109,6 +109,8 @@ OAuth2Login.defaultProps = {
   state: '',
   className: '',
   children: null,
+  popupWidth: 680,
+  popupHeight: 800,
   render: null,
   isCrossOrigin: false,
   onRequest: () => {},
@@ -124,6 +126,8 @@ OAuth2Login.propTypes = {
   onFailure: PropTypes.func.isRequired,
   buttonText: PropTypes.string,
   children: PropTypes.node,
+  popupWidth: PropTypes.number,
+  popupHeight: PropTypes.number,
   className: PropTypes.string,
   render: PropTypes.func,
   isCrossOrigin: PropTypes.bool,
