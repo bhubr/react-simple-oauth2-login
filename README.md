@@ -78,6 +78,34 @@ The Client ID and Redirect URI should match that of the client app.
 
 Then you can run `npm start`.
 
+### Cross Origin / Same-origin Policy
+
+> See the documentation on [Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
+If you are using the Authorization Code flow, and your redirect URL is on a server with a different
+domain to your frontend, you will need to do the following:
+
+1. Set the `isCrossOrigin` property to `true`
+2. Set up your authorization url on your server to return a standard response similar to the one
+   below:
+
+```
+<html>
+<head></head>
+<body>
+  <script>
+    window.addEventListener("message", function (event) {
+      if (event.data.message === "requestResult") {
+        event.source.postMessage({"message": "deliverResult", result: {...} }, "*");
+      }
+    });
+  </script>
+</body>
+</html>
+```
+
+Your server needs to populate the `result` key with an object to deliver back to the frontend.
+
 ### Props
 
 #### `authorizationUrl`
@@ -138,6 +166,20 @@ CSS class for the login button.
 
 Text content for the login button.
 
+#### `isCrossOrigin`
+
+`{bool}`
+
+Is this a cross-origin request? If you are implementing an Authorization Code workflow and your
+server backend is on a different URL, you'll need to set this to true.
+
+#### `render`
+
+`{function}`
+
+A custom rendering function. An object containing properties for rendering will be passed in as an
+argument, e.g. `{buttonText: "...", children: [...], className: "...", onClick: func}`.
+
 #### `onRequest`
 
 `{function}`
@@ -158,6 +200,16 @@ Callback for errors raised during login.
 
 ## ChangeLog
 
+* v0.4.0 (published June 18th, 2021)
+
+    * **Support cross-origin auth flow**: previous versions worked only if the redirect URI was derived from the frontend app's URL; now you can have a redirect URI poiting to your backend app. Thanks (again) to [rsnyman](https://github.com/rsnyman).
+    * Update dev dependencies: ESLint, Enzyme
+    * Restore unit tests to working state
+    * End-to-end testing of Authorization Code flow (using a Node-based OAuth2 server)
+* v0.3.0 (Changes made in May, 2021 - published June 18th, 2021) - thanks to [rsnyman](https://github.com/rsnyman) for both additions:
+
+    * Add `render` prop to customize the login button's appearance
+    * Add MIT license
 * v0.2.0 (October 25th, 2020):
 
     * Add support for Implicit Grant flow

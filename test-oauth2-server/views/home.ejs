@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+
+    <!-- CSS Reset -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
+
+    <!-- Milligram CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
+    />
+
+    <style>
+      .navigation {
+        background: #eee;
+        border-bottom: #ddd;
+        padding: 1em 0;
+      }
+      main {
+        margin-top: 4em;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navigation">
+      <section class="container">
+        <a class="navigation-title" href="http://localhost:4000" title="Home">Home</a>
+      </section>
+    </nav>
+    <main>
+      <div class="container">
+        <h1>Dummy OAuth2 Server</h1>
+        <% if (user) { %>
+        <h3>User info</h3>
+        <p>Logged-in as <%= user.name %></p>
+        <img alt="<%= user.name %>" src="<%= user.picture %>" />
+        <a href="/auth/logout">Logout</a></p>
+        <h3>User apps</h3>
+        <ul>
+          <% userApps.forEach(function(app){ %>
+            <li><%= app.id %> <%= app.name %> <%= app.clientId %></li>
+          <% }); %>
+        </ul>
+        <% } else { %>
+        <p>Not logged-in. <a href="/auth/login">Login</a></p>
+        <% } %>
+      </div>
+    </main>
+  </body>
+</html>

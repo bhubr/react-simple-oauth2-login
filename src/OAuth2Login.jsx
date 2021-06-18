@@ -25,7 +25,7 @@ class OAuth2Login extends Component {
 
   onBtnClick() {
     const {
-      buttonText, authorizationUrl, clientId, scope, redirectUri, state, responseType, popupWidth, popupHeight
+      buttonText, authorizationUrl, clientId, scope, redirectUri, state, responseType, popupWidth, popupHeight, isCrossOrigin
     } = this.props;
     const payload = {
       client_id: clientId,
@@ -50,6 +50,7 @@ class OAuth2Login extends Component {
       },
       {
         locationKey,
+        isCrossOrigin
       },
     );
     this.popup = popup;
@@ -68,7 +69,9 @@ class OAuth2Login extends Component {
   onSuccess(data) {
     const { responseType, onSuccess } = this.props;
     const responseKey = responseTypeDataKeys[responseType];
-    if (!data[responseKey]) {
+
+    // Cross origin requests will already handle this, let's just return the data
+    if (!this.props.isCrossOrigin && !data[responseKey]) {
       console.error('received data', data);
       return this.onFailure(new Error(`'${responseKey}' not found in received data`));
     }
@@ -82,30 +85,39 @@ class OAuth2Login extends Component {
   }
 
   render() {
-    const { className, buttonText, children } = this.props;
-    const attrs = { onClick: this.onBtnClick };
+    const { id, className, buttonText, children, render } = this.props;
 
+    if (render) {
+      return render({ className, buttonText, children, onClick: this.onBtnClick });
+    }
+    const attrs = { onClick: this.onBtnClick };
+    if (id) {
+      attrs.id = id;
+    }
     if (className) {
       attrs.className = className;
     }
-
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <button type="button" {...attrs}>{ children || buttonText }</button>;
   }
 }
 
 OAuth2Login.defaultProps = {
+  id: undefined,
   buttonText: 'Login',
   scope: '',
   state: '',
   className: '',
   children: null,
   popupWidth: 680,
-  popupHeight: 440,
+  popupHeight: 800,
+  render: null,
+  isCrossOrigin: false,
   onRequest: () => {},
 };
 
 OAuth2Login.propTypes = {
+  id: PropTypes.string,
   authorizationUrl: PropTypes.string.isRequired,
   clientId: PropTypes.string.isRequired,
   redirectUri: PropTypes.string.isRequired,
@@ -117,6 +129,8 @@ OAuth2Login.propTypes = {
   popupWidth: PropTypes.number,
   popupHeight: PropTypes.number,
   className: PropTypes.string,
+  render: PropTypes.func,
+  isCrossOrigin: PropTypes.bool,
   onRequest: PropTypes.func,
   scope: PropTypes.string,
   state: PropTypes.string,
