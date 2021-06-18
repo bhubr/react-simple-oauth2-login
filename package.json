@@ -26,7 +26,7 @@
     "start-example-client": "cd example/client && npm start",
     "start-example-server": "cd example/server && npm start",
     "start-example": "concurrently \"npm:start-example-client\" \"npm:start-example-server\"",
-    "ci": "start-server-and-test start-oauth2-server :4000 start-example :1234 test:e2e"
+    "ci": "start-server-and-test start-oauth2-server :4000 start-example :1234 test"
   },
   "repository": {
     "type": "git",
