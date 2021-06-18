@@ -234,6 +234,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/rsnyman"><img src="https://avatars.githubusercontent.com/u/1080682?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Raoul Snyman</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=rsnyman" title="Code">💻</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=rsnyman" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/tennox"><img src="https://avatars.githubusercontent.com/u/2084639?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Manuel</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/issues?q=author%3Atennox" title="Bug reports">🐛</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=tennox" title="Code">💻</a></td>
   </tr>
 </table>
 
