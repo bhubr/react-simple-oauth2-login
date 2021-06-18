@@ -46,6 +46,16 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "stewartpark",
+      "name": "Stewart Park",
+      "avatar_url": "https://avatars.githubusercontent.com/u/388348?v=4",
+      "profile": "https://stewartjpark.com",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
