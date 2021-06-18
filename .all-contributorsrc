@@ -33,6 +33,19 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "bhubr",
+      "name": "Benoît Hubert",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15270070?v=4",
+      "profile": "https://developpeur-web-toulouse.fr/",
+      "contributions": [
+        "code",
+        "doc",
+        "example",
+        "maintenance",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
