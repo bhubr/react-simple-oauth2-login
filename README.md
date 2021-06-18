@@ -141,6 +141,19 @@ Registered redirect URI for OAuth application.
 
 Scope for OAuth application. Example: `user:email` (GitHub).
 
+#### `popupWidth`
+
+`{number}`
+
+Width for the popup window upon clicking the button in px. Default: `680`.
+
+#### `popupHeight`
+
+`{number}`
+
+Height for the popup window upon clicking the button in px. Default: `440`.
+
+
 #### `className`
 
 `{string}`
