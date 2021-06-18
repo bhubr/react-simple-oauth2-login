@@ -78,6 +78,34 @@ The Client ID and Redirect URI should match that of the client app.
 
 Then you can run `npm start`.
 
+### Cross Origin / Same-origin Policy
+
+> See the documentation on [Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
+If you are using the Authorization Code flow, and your redirect URL is on a server with a different
+domain to your frontend, you will need to do the following:
+
+1. Set the `isCrossOrigin` property to `true`
+2. Set up your authorization url on your server to return a standard response similar to the one
+   below:
+
+```
+<html>
+<head></head>
+<body>
+  <script>
+    window.addEventListener("message", function (event) {
+      if (event.data.message === "requestResult") {
+        event.source.postMessage({"message": "deliverResult", result: {...} }, "*");
+      }
+    });
+  </script>
+</body>
+</html>
+```
+
+Your server needs to populate the `result` key with an object to deliver back to the frontend.
+
 ### Props
 
 #### `authorizationUrl`
@@ -124,6 +152,13 @@ CSS class for the login button.
 `{string}`
 
 Text content for the login button.
+
+#### `isCrossOrigin`
+
+`{bool}`
+
+Is this a cross-origin request? If you are implementing an Authorization Code workflow and your
+server backend is on a different URL, you'll need to set this to true.
 
 #### `render`
 
