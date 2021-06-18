@@ -38,7 +38,7 @@ class OAuth2Login extends Component {
     }
     const search = toQuery(payload);
     const width = 680;
-    const height = 440;
+    const height = 800;
     const left = window.screenX + ((window.outerWidth - width) / 2);
     const top = window.screenY + ((window.outerHeight - height) / 2.5);
     const locationKey = responseTypeLocationKeys[responseType];
