@@ -1,6 +1,6 @@
 # React Simple OAuth2 Login
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 > :trophy: **Credits**: this component is based on [React GitHub Login](https://github.com/checkr/react-github-login) by [Checkr](https://checkr.com/).
@@ -175,6 +175,12 @@ Text content for the login button.
 Is this a cross-origin request? If you are implementing an Authorization Code workflow and your
 server backend is on a different URL, you'll need to set this to true.
 
+#### `extraParams`
+
+`{object}`
+
+This allows you to pass extra query parameters to the OAuth2 login screen. Some providers allow additional parameters. See [issue #39 on the repo](https://github.com/bhubr/react-simple-oauth2-login/issues/39) for more details. If you want to add `prompt=consent` to the query string, you need to pass `extraParams={{ prompt: 'consent' }}` as a prop.
+
 #### `render`
 
 `{function}`
@@ -201,6 +207,10 @@ Callback for successful login. An object will be passed as an argument to the ca
 Callback for errors raised during login.
 
 ## ChangeLog
+
+* v0.5.1 (published August 25th, 2021)
+
+    * Allow to pass extra params in the query string, via the `extraParams` prop. Thanks to [jshthornton](https://github.com/jshthornton)
 
 * v0.5.0 (published June 18th, 2021)
 
@@ -243,6 +253,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/tennox"><img src="https://avatars.githubusercontent.com/u/2084639?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Manuel</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/issues?q=author%3Atennox" title="Bug reports">🐛</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=tennox" title="Code">💻</a></td>
     <td align="center"><a href="https://stewartjpark.com"><img src="https://avatars.githubusercontent.com/u/388348?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stewart Park</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=stewartpark" title="Code">💻</a> <a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=stewartpark" title="Documentation">📖</a></td>
     <td align="center"><a href="http://juresotosek.com"><img src="https://avatars.githubusercontent.com/u/16746406?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jure Sotosek</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=JureSotosek" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/jshthornton"><img src="https://avatars.githubusercontent.com/u/2814746?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joshua Thornton</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/commits?author=jshthornton" title="Code">💻</a></td>
   </tr>
 </table>
 
