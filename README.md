@@ -175,6 +175,12 @@ Text content for the login button.
 Is this a cross-origin request? If you are implementing an Authorization Code workflow and your
 server backend is on a different URL, you'll need to set this to true.
 
+#### `extraParams`
+
+`{object}`
+
+This allows you to pass extra query parameters to the OAuth2 login screen. Some providers allow additional parameters. See [issue #39 on the repo](https://github.com/bhubr/react-simple-oauth2-login/issues/39) for more details. If you want to add `prompt=consent` to the query string, you need to pass `extraParams={{ prompt: consent }}` as a prop.
+
 #### `render`
 
 `{function}`
@@ -201,6 +207,10 @@ Callback for successful login. An object will be passed as an argument to the ca
 Callback for errors raised during login.
 
 ## ChangeLog
+
+* v0.5.1 (published August 25th, 2021)
+
+    * Allow to pass extra params in the query string, via the `extraParams` prop. Thanks to [jshthornton](https://github.com/jshthornton)
 
 * v0.5.0 (published June 18th, 2021)
 
