@@ -35,12 +35,14 @@ class OAuth2Login extends Component {
       popupWidth,
       popupHeight,
       isCrossOrigin,
+      extraParams,
     } = this.props;
     const payload = {
       client_id: clientId,
       scope,
       redirect_uri: redirectUri,
       response_type: responseType,
+      ...extraParams,
     };
     if (state) {
       payload.state = state;
@@ -126,6 +128,7 @@ OAuth2Login.defaultProps = {
   popupHeight: 680,
   render: null,
   isCrossOrigin: false,
+  extraParams: {},
   onRequest: () => {},
 };
 
@@ -147,6 +150,7 @@ OAuth2Login.propTypes = {
   onRequest: PropTypes.func,
   scope: PropTypes.string,
   state: PropTypes.string,
+  extraParams: PropTypes.object,
 };
 
 export default OAuth2Login;
