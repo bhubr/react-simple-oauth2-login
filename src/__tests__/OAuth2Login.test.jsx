@@ -108,7 +108,7 @@ test('Opens OAuth dialog', () => {
 
   wrapper.find('button').simulate('click');
 
-  const query = `client_id=${clientId}&scope=scope1 scope2&redirect_uri=${redirectUri}&response_type=code`;
+  const query = `client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=scope1 scope2`;
 
   expect(url).toBe(
     `https://foo.test/authorize?${query}`,
