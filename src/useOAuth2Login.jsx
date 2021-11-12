@@ -56,7 +56,6 @@ function useOAuth2Login(options) {
 
     const payload = {
       client_id: clientId,
-      scope,
       redirect_uri: redirectUri,
       response_type: responseType,
       ...extraParams,
@@ -64,6 +63,9 @@ function useOAuth2Login(options) {
 
     if (state) {
       payload.state = state;
+    }
+    if (scope) {
+      payload.scope = scope;
     }
     const search = toQuery(payload);
     const width = popupWidth;
