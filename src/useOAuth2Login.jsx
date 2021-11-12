@@ -35,7 +35,7 @@ function useOAuth2Login(options) {
         onRequest();
       }
     }
-    
+
     function handleSuccess(data) {
       const responseKey = responseTypeDataKeys[responseType];
 
@@ -47,9 +47,11 @@ function useOAuth2Login(options) {
 
       return onSuccess && onSuccess(data);
     }
-    
+
     function handleFailure(error) {
-      onFailure && onFailure(error);
+      if (onFailure) {
+        onFailure(error);
+      }
     }
 
     const payload = {
@@ -59,7 +61,7 @@ function useOAuth2Login(options) {
       response_type: responseType,
       ...extraParams,
     };
-  
+
     if (state) {
       payload.state = state;
     }
@@ -69,7 +71,7 @@ function useOAuth2Login(options) {
     const left = window.screenX + ((window.outerWidth - width) / 2);
     const top = window.screenY + ((window.outerHeight - height) / 2.5);
     const locationKey = responseTypeLocationKeys[responseType];
-  
+
     const popup = PopupWindow.open(
       popupName,
       `${authorizationUrl}?${search}`,
@@ -81,13 +83,12 @@ function useOAuth2Login(options) {
         isCrossOrigin,
       },
     );
-  
+
     handleRequest();
 
     popup
       .then(handleSuccess)
       .catch(handleFailure);
-    
   }
 
   return {

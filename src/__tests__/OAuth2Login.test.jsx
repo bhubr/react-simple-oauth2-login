@@ -11,7 +11,10 @@ const onSuccess = () => {};
 const onFailure = () => {};
 
 // lazy way to circumvent jsdom's `Error: Not implemented: window.open`
-window.open = () => {};
+let url;
+window.open = (_url) => {
+  url = _url;
+};
 
 test('Renders defaults', () => {
   const component = renderer.create(
@@ -107,7 +110,7 @@ test('Opens OAuth dialog', () => {
 
   const query = `client_id=${clientId}&scope=scope1 scope2&redirect_uri=${redirectUri}&response_type=code`;
 
-  expect(wrapper.instance().popup.url).toBe(
+  expect(url).toBe(
     `https://foo.test/authorize?${query}`,
   );
 });

@@ -1,3 +1,6 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -23,13 +26,15 @@ function OAuth2Login(props) {
     });
   }
 
+  const btnProps = {
+    type: 'button',
+    onClick: handleClick,
+  };
+  if (id) btnProps.id = id;
+  if (className) btnProps.className = className;
+
   return (
-    <button
-      type="button"
-      id={id}
-      className={className}
-      onClick={handleClick}
-    >
+    <button {...btnProps}>
       { children || buttonText }
     </button>
   );

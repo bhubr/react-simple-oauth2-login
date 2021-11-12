@@ -14,6 +14,9 @@
       "url": "https://github.com/rsnyman"
     }
   ],
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "scripts": {
     "build": "NODE_ENV=production webpack -p",
     "lint": "npx eslint --ext .js,.jsx --fix src",
@@ -57,7 +60,7 @@
     "autoprefixer": "^7.1.2",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
-    "chromedriver": "^91.0.1",
+    "chromedriver": "^94.0.0",
     "concurrently": "^6.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
@@ -68,7 +71,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "fbjs": "^3.0.0",
-    "jest": "^25.1.0",
+    "jest": "^27.3.1",
     "object-assign": "^4.1.0",
     "react": "^16.0.0",
     "react-css-modules": "^4.5.2",
