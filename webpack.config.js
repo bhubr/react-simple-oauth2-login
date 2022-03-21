@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackplugin = require('copy-webpack-plugin');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -35,6 +36,11 @@ module.exports = {
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
+    }),
+    new CopyWebpackplugin({
+      patterns: [
+        { from: './src/index.d.ts', to: './OAuth2Login.d.ts' },
+      ],
     }),
     new webpack.optimize.AggressiveMergingPlugin(),
   ],
