@@ -2,7 +2,7 @@
 
 exports[`Renders defaults 1`] = `
 <button
-  onClick={[Function]}
+  class=""
   type="button"
 >
   Login
@@ -11,7 +11,7 @@ exports[`Renders defaults 1`] = `
 
 exports[`Renders with \`buttonText\` 1`] = `
 <button
-  onClick={[Function]}
+  class=""
   type="button"
 >
   Foo
@@ -20,8 +20,7 @@ exports[`Renders with \`buttonText\` 1`] = `
 
 exports[`Renders with \`className\` 1`] = `
 <button
-  className="foobar"
-  onClick={[Function]}
+  class="foobar"
   type="button"
 >
   Login
@@ -30,11 +29,10 @@ exports[`Renders with \`className\` 1`] = `
 
 exports[`Renders with custom render function 1`] = `
 <div
-  className=""
+  class="theClassName"
 >
   <a
-    href={true}
-    onClick={[Function]}
+    href="#"
   >
     Login
   </a>
