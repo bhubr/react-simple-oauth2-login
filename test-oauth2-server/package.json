@@ -2,25 +2,34 @@
   "name": "test-oauth2-server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec ts-node --ext .ts src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cookie-parser": "^1.4.5",
+    "@jmondi/oauth2-server": "^2.6.1",
     "cors": "^2.8.5",
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "express-oauth-server": "^2.0.0",
-    "express-session": "^1.17.2",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.14.2",
     "morgan": "^1.10.0",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/express-session": "^1.17.5",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^18.11.18",
+    "@types/passport": "^1.0.11",
+    "@types/passport-local": "^1.0.35",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
   }
 }
