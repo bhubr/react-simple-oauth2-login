@@ -1,0 +1,19 @@
+.App {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.warning {
+  background: #ffd;
+  padding: 1em;
+}
+
+.ErrorAlert {
+  border: 2px solid red;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+code {
+  background: #fff;
+}
