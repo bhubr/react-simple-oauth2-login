@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { toParams, toQuery } from './utils';
 
 class PopupWindow {
@@ -5,7 +6,7 @@ class PopupWindow {
     this.id = id;
     this.url = url;
     this.popupOptions = popupOptions;
-    this.locationKey = otherOptions.locationKey;
+    this.responseType = otherOptions.responseType;
     this.isCrossOrigin = otherOptions.isCrossOrigin;
     this.response = null;
     this.handlePostMessage = this.handlePostMessage.bind(this);
@@ -18,9 +19,7 @@ class PopupWindow {
   }
 
   open() {
-    const {
-      url, id, popupOptions, isCrossOrigin,
-    } = this;
+    const { url, id, popupOptions, isCrossOrigin } = this;
 
     if (isCrossOrigin) {
       window.addEventListener('message', this.handlePostMessage);
@@ -59,25 +58,56 @@ class PopupWindow {
               return;
             }
           } else {
-            if (popup.location.href === this.url || popup.location.pathname === 'blank') {
+            if (
+              popup.location.href === this.url ||
+              popup.location.pathname === 'blank'
+            ) {
               // location unchanged, still polling
               return;
             }
-            if (!['search', 'hash'].includes(this.locationKey)) {
-              reject(new Error(`Cannot get data from location.${this.locationKey}, check the responseType prop`));
-              this.close();
-              return;
-            }
 
-            const locationValue = popup.location[this.locationKey];
-            const params = toParams(locationValue);
-            resolve(params);
+            // Where should we look for the returned data in the redirected URL:
+            // first from location.search, then from location.hash,
+            // or the other way round.
+            // OAuth2 RFC states that in Implicit Grant flow, the access token issued
+            // by the server is delivered by "adding [...] parameters to the fragment
+            // component of the redirection URI"
+            // https://www.rfc-editor.org/rfc/rfc6749#section-4.2.2
+
+            // However, some OAuth2 server implementations (such as ts-oauth2-server)
+            // will return the data in the query string instead
+            // So we search first in the "expected" part of the URL
+            //   auth code => `search` (query string)
+            //   implicit => `hash` (URI fragment)
+            // And if we don't find the data in this expected part of the URL,
+            // we search in the other one
+            const searchFirst = this.responseType !== 'token';
+            let locationKeys = ['search', 'hash'];
+            if (!searchFirst) {
+              locationKeys = locationKeys.reverse();
+            }
+            // Lookup returned data in search & hash and exit if data is found
+            for (const locationKey of locationKeys) {
+              const locationValue = popup.location[locationKey];
+              if (locationValue) {
+                const params = toParams(locationValue);
+                resolve(params);
+                this.close();
+                break;
+              }
+            }
+            reject(new Error("No data found in redirect URI's search or hash"));
             this.close();
           }
         } catch (error) {
           // Log the error to the console but remain silent
-          if (error.name === 'SecurityError' && error.message.includes('Blocked a frame with origin')) {
-            console.warn('Encountered a cross-origin error, is your authorization URL on a different server? Use the "isCrossOrigin" property, see documentation for details.');
+          if (
+            error.name === 'SecurityError' &&
+            error.message.includes('Blocked a frame with origin')
+          ) {
+            console.warn(
+              'Encountered a cross-origin error, is your authorization URL on a different server? Use the "isCrossOrigin" property, see documentation for details.'
+            );
           } else {
             console.error(error);
           }
