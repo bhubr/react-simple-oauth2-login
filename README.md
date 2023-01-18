@@ -208,6 +208,18 @@ Callback for errors raised during login.
 
 ## ChangeLog
 
+* v0.5.4 (published November 14th, 2022)
+
+    * Update `react` peer dependency, so as to support React 18. Thanks to [alxnik](https://github.com/alxnik) and [desoss](https://github.com/desoss) for reporting.
+
+* v0.5.3 (published November 12th, 2021)
+
+    * Fix accidental replacement of NPM registry URL by a local registry's URL.
+
+* v0.5.2 (published November 11th, 2021)
+
+    * Update `react` peer dependency, so as to support React 17. Thanks to [arudrakalyan](https://github.com/arudrakalyan) for reporting.
+
 * v0.5.1 (published August 25th, 2021)
 
     * Allow to pass extra params in the query string, via the `extraParams` prop. Thanks to [jshthornton](https://github.com/jshthornton)
