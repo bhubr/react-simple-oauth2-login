@@ -31,11 +31,19 @@ export default function ImplicitGrantExample() {
         clientId={clientId}
         redirectUri={redirectUri}
         responseType="token"
-        buttonText="Implicit grant login"
         onSuccess={onSuccess}
         onFailure={setError}
+        // buttonText & id are optional
+        // (id is used for end-to-end testing)
+        buttonText="Implicit grant login"
+        id="implicit-grant-component-btn"
       />
-      {accessToken && <p>Access token: {accessToken}</p>}
+      {accessToken && (
+        <p>
+          Access token:{' '}
+          <span id="implicit-grant-component-token">{accessToken}</span>
+        </p>
+      )}
     </div>
   );
 }

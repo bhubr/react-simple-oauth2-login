@@ -127,35 +127,35 @@ app.get(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Redirect anonymous users to login page.
-    const { user } = req;
-    if (!req.session.authRequest) {
-      const authRequest =
-        await authorizationServer.validateAuthorizationRequest(
-          requestFromExpress(req)
-        );
-      req.session.authRequest = authRequest as AuthorizationRequestWithUser;
-    }
-
-    if (!user) {
-      const redirectTo = util.format(
-        "/authorize?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s",
-        req.query.client_id,
-        req.query.redirect_uri,
-        req.query.response_type,
-        req.query.scope
-      );
-      req.session.save();
-      console.log(">>> session save", req.session);
-      return res.redirect(
-        `/auth/login?redirect=${encodeURIComponent(redirectTo)}`
-      );
-      // return res.redirect("/auth/login");
-    }
-    // The auth request object can be serialized and saved into a user's session.
-    // You will probably want to redirect the user at this point to a login endpoint.
-
     try {
+      // Redirect anonymous users to login page.
+      const { user } = req;
+      if (!req.session.authRequest) {
+        const authRequest =
+          await authorizationServer.validateAuthorizationRequest(
+            requestFromExpress(req)
+          );
+        req.session.authRequest = authRequest as AuthorizationRequestWithUser;
+      }
+
+      if (!user) {
+        const redirectTo = util.format(
+          "/authorize?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s",
+          req.query.client_id,
+          req.query.redirect_uri,
+          req.query.response_type,
+          req.query.scope
+        );
+        req.session.save();
+        console.log(">>> session save", req.session);
+        return res.redirect(
+          `/auth/login?redirect=${encodeURIComponent(redirectTo)}`
+        );
+        // return res.redirect("/auth/login");
+      }
+      // The auth request object can be serialized and saved into a user's session.
+      // You will probably want to redirect the user at this point to a login endpoint.
+
       const { authRequest } = req.session;
       // Once the user has logged in set the user on the AuthorizationRequest
       console.log(
@@ -251,11 +251,17 @@ app.post(
     authRequest.isAuthorizationApproved = true;
 
     // Return the HTTP redirect response
-    const oauthResponse =
-      await authorizationServer.completeAuthorizationRequest(authRequest);
-    delete req.session.authRequest;
-    delete req.session.verificationToken;
-    return handleExpressResponse(res, oauthResponse);
+    try {
+      const oauthResponse =
+        await authorizationServer.completeAuthorizationRequest(authRequest);
+      delete req.session.authRequest;
+      delete req.session.verificationToken;
+      return handleExpressResponse(res, oauthResponse);
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ errors: [{ msg: (err as Error).message }] });
+    }
   }
 );
 

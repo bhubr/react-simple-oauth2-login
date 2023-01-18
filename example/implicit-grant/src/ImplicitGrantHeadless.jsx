@@ -35,7 +35,7 @@ export default function ImplicitGrantHeadless() {
           }}
         />
       )}
-      <button type="button" onClick={activate}>
+      <button id="implicit-grant-headless-btn" type="button" onClick={activate}>
         Implicit grant login (headless mode)
       </button>
       {accessToken && <p>Access token: {accessToken}</p>}

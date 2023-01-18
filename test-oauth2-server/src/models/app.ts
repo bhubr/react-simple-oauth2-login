@@ -9,6 +9,7 @@ export const apps = [
     clientSecret: "peggy-secret",
     redirectUris: [
       "http://localhost:1234/oauth/callback",
+      "http://localhost:5173/oauth/callback",
       "http://localhost:5000/oauth/callback",
     ],
     scopes: [
@@ -29,6 +30,7 @@ export const apps = [
     clientSecret: "dwight-secret",
     redirectUris: [
       "http://localhost:1234/oauth/callback",
+      "http://localhost:5173/oauth/callback",
       "http://localhost:5000/oauth/callback",
     ],
     scopes: ["user-email"],
