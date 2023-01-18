@@ -1,19 +1,29 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
 
-// import OAuth2Login from 'react-simple-oauth2-login';
-import OAuth2Login from '../../../src/OAuth2Login';
+// import { useOAuth2Login } from 'react-simple-oauth2-login';
+import useOAuth2Login from '../../../src/useOAuth2Login';
 import ErrorAlert from './ErrorAlert';
 import { authorizationUrl, clientId, redirectUri, scope } from './settings';
 
-export default function ImplicitGrantExample() {
-  // don't pass the scope as component prop unless it's actually defined and non-empty
-  const extraProps = scope ? { scope } : {};
+export default function ImplicitGrantHeadless() {
+  const extraParams = scope ? { scope } : {};
 
   const [accessToken, setAccessToken] = useState(null);
   const [error, setError] = useState(null);
 
   const onSuccess = ({ access_token: token }) => setAccessToken(token);
+
+  const { activate } = useOAuth2Login({
+    ...extraParams,
+    responseType: 'token',
+    authorizationUrl,
+    clientId,
+    redirectUri,
+    onSuccess,
+    onFailure: setError,
+  });
+
   return (
     <div>
       {error && <ErrorAlert error={error} />}
@@ -25,16 +35,9 @@ export default function ImplicitGrantExample() {
           }}
         />
       )}
-      <OAuth2Login
-        {...extraProps}
-        authorizationUrl={authorizationUrl}
-        clientId={clientId}
-        redirectUri={redirectUri}
-        responseType="token"
-        buttonText="Implicit grant login"
-        onSuccess={onSuccess}
-        onFailure={setError}
-      />
+      <button type="button" onClick={activate}>
+        Implicit grant login (headless mode)
+      </button>
       {accessToken && <p>Access token: {accessToken}</p>}
     </div>
   );

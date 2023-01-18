@@ -1,5 +1,5 @@
 .App {
-  max-width: 600px;
+  max-width: 660px;
   margin: 0 auto;
 }
 
@@ -14,6 +14,21 @@
   margin-bottom: 1em;
 }
 
+a {
+  text-decoration: none;
+}
+
 code {
-  background: #fff;
+  background: #eee;
+  color: #933;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  width: 48%;
+  word-wrap: break-word;
 }

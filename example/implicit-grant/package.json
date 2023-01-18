@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "npx eslint --ext .jsx,.js src/"
   },
   "dependencies": {
     "prop-types": "^15.8.1",
