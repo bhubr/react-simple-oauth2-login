@@ -13,13 +13,13 @@ const testCases = [
   },
 ];
 
-describe('Implicit Grant flow', () => {
+describe('Authorization Code flow', () => {
   testCases.forEach(({ label, identifier }) => {
     it(label, async () => {
-      const idBase = `#implicit-grant-${identifier}`;
+      const idBase = `#authorization-code-${identifier}`;
 
       // Get to Implicit Grant example URL
-      await browser.url('http://localhost:5173');
+      await browser.url('http://localhost:5174');
       await browser.pause(500);
 
       // Click the authorization code flow login button
@@ -35,7 +35,7 @@ describe('Implicit Grant flow', () => {
 
       // Fill-in the login form and submit
       const emailField = await browser.$('#emailField');
-      emailField.setValue('peggy@example.com');
+      emailField.setValue('dwight@example.com');
       const passField = await browser.$('#passwordField');
       passField.setValue('pass');
       const loginBtn = await browser.$('#login-btn');
@@ -58,7 +58,7 @@ describe('Implicit Grant flow', () => {
       const accessToken = await accessTokenSpan.getText();
       const accessTokenPayload = jwtDwcode(accessToken);
 
-      assert.strictEqual(accessTokenPayload.sub, 'uuid-0001');
+      assert.strictEqual(accessTokenPayload.sub, 'uuid-0002');
       assert.strictEqual(accessTokenPayload.scope, 'user-email');
 
       // // after OAuth2 login, we query a token-protected endpoint

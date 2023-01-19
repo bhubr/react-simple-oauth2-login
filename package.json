@@ -24,9 +24,10 @@
     "test": "yarn test:unit && yarn test:e2e",
     "start-oauth2-server": "cd test-oauth2-server && yarn dev",
     "start-client-implicit": "cd example/implicit-grant && yarn dev",
-    "start-example-server": "cd example/server && npm start",
-    "start-example": "concurrently \"npm:start-client-implicit\" \"npm:start-example-server\"",
-    "ci": "start-server-and-test start-oauth2-server :4000 start-example :5173 test"
+    "start-server-authcode": "cd example/authorization-code-grant/server && yarn dev",
+    "start-client-authcode": "cd example/authorization-code-grant/client && yarn dev",
+    "start-examples": "concurrently \"npm:start-client-implicit\" \"npm:start-server-authcode\" \"npm:start-client-authcode\"",
+    "ci": "start-server-and-test start-oauth2-server :4000 start-examples :5174 test"
   },
   "repository": {
     "type": "git",

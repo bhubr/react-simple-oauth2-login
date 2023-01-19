@@ -1,4 +1,5 @@
 import AuthorizationCodeExample from './AuthorizationCodeExample';
+import AuthorizationCodeHeadless from './AuthorizationCodeHeadless';
 
 import './App.css';
 
@@ -18,7 +19,7 @@ function App() {
         </div>
         <div className="column">
           <h2>Hook-based (&#34;headless&#34;)</h2>
-          {/* <ImplicitGrantHeadless /> */}
+          <AuthorizationCodeHeadless />
         </div>
       </div>
     </div>

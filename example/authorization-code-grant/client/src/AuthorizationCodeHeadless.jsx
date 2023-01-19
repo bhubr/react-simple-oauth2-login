@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 
 // import OAuth2Login from 'react-simple-oauth2-login';
 import OAuth2Login from '../../../../src/OAuth2Login';
+import useOAuth2Login from '../../../../src/useOAuth2Login';
 import ErrorAlert from './ErrorAlert';
 import {
   authorizationUrl,
@@ -23,9 +24,8 @@ function PreviewJSON({ data }) {
   );
 }
 
-export default function AuthorizationCodeExample() {
-  // don't pass the scope as component prop unless it's actually defined and non-empty
-  const extraProps = scope ? { scope } : {};
+export default function AuthorizationCodeHeadless() {
+  const extraParams = scope ? { scope } : {};
 
   const [accessToken, setAccessToken] = useState(null);
   const [data, setData] = useState(null);
@@ -58,6 +58,16 @@ export default function AuthorizationCodeExample() {
       .then(setData)
       .catch(setError);
 
+  const { activate } = useOAuth2Login({
+    ...extraParams,
+    responseType: 'code',
+    authorizationUrl,
+    clientId,
+    redirectUri,
+    onSuccess,
+    onFailure: setError,
+  });
+
   return (
     <div className="column">
       {error && <ErrorAlert error={error} />}
@@ -69,23 +79,17 @@ export default function AuthorizationCodeExample() {
           }}
         />
       )}
-      <OAuth2Login
-        {...extraProps}
-        authorizationUrl={authorizationUrl}
-        clientId={clientId}
-        redirectUri={redirectUri}
-        responseType="code"
-        onSuccess={onSuccess}
-        onFailure={setError}
-        // buttonText & id are optional
-        // (id is used for end-to-end testing)
-        buttonText="Auth code login"
-        id="authorization-code-component-btn"
-      />
+      <button
+        id="authorization-code-headless-btn"
+        type="button"
+        onClick={activate}
+      >
+        Auth code login (headless mode)
+      </button>
       {accessToken && (
         <p>
           Access token:{' '}
-          <span id="authorization-code-component-token">{accessToken}</span>
+          <span id="authorization-code-headless-token">{accessToken}</span>
         </p>
       )}
       {data && (
