@@ -26,7 +26,7 @@ export const clientId = import.meta.env.VITE_OAUTH2_CLIENT_ID;
 // You get to configure this in your OAuth settings
 // If you use React Router, the relative path (empty here) can match
 // that of a route which displays nothing
-// export const redirectUri = 'http://localhost:1234/oauth/callback';
+// export const redirectUri = 'http://localhost:5174/oauth/callback';
 export const redirectUri = import.meta.env.VITE_OAUTH2_REDIRECT_URI;
 
 // Scopes
@@ -43,5 +43,3 @@ export const appServerUrl = import.meta.env.VITE_APP_SERVER_URL;
 // export const resourceServerUrl = 'https://api.github.com';
 export const resourceServerUrl = import.meta.env.VITE_RESOURCE_SERVER_URL;
 export const resourcePathname = import.meta.env.VITE_RESOURCE_PATHNAME;
-
-///api/user

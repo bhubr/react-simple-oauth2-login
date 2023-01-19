@@ -1,18 +1,47 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 // import { useOAuth2Login } from 'react-simple-oauth2-login';
 import useOAuth2Login from '../../../src/useOAuth2Login';
 import ErrorAlert from './ErrorAlert';
-import { authorizationUrl, clientId, redirectUri, scope } from './settings';
+import {
+  authorizationUrl,
+  clientId,
+  redirectUri,
+  scope,
+  resourceServerUrl,
+  resourcePathname,
+} from './settings';
+
+function PreviewJSON({ data }) {
+  const formattedData = useMemo(() => JSON.stringify(data, null, 2), []);
+  return (
+    <pre>
+      <code>{formattedData}</code>
+    </pre>
+  );
+}
 
 export default function ImplicitGrantHeadless() {
   const extraParams = scope ? { scope } : {};
 
   const [accessToken, setAccessToken] = useState(null);
+  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  const onSuccess = ({ access_token: token }) => setAccessToken(token);
+  const onSuccess = ({ access_token: token }) => {
+    setAccessToken(token);
+    fetch(`${resourceServerUrl}${resourcePathname}`, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then(setData)
+      .catch(setError);
+  };
 
   const { activate } = useOAuth2Login({
     ...extraParams,
@@ -43,6 +72,13 @@ export default function ImplicitGrantHeadless() {
           Access token:{' '}
           <span id="implicit-grant-headless-token">{accessToken}</span>
         </p>
+      )}
+      {data && (
+        <div>
+          <h3>Retrieved data</h3>
+          <p>Obtained from token-protected API</p>
+          <PreviewJSON data={data} />
+        </div>
       )}
     </div>
   );
