@@ -11,12 +11,27 @@ Supports **Authorization Code** and **Implicit Grant** flows.
 
 ## RTFM
 
+* [Contributors welcome](#contributors-welcome)
+* [Features](#features)
 * [Usage](#usage)
 
     * [Basic example](#basic-example)
-    * [Example app](#example-app)
+    * [Example apps](#example-apps)
     * [Props](#props)
 * [ChangeLog](#changelog)
+
+## Contributors welcome
+
+If you have ideas and/or JavaScript/TypeScript coding skills, your help is more than welcome! Please let me know by opening a [discussion](https://github.com/bhubr/react-simple-oauth2-login/discussions) on the GitHub repo.
+
+## Features
+
+This package supports two OAuth 2.0 flows:
+
+* Implicit grant (not recommended)
+* Authorization Code grant
+
+More will come soon: after a long hiatus, work on this package has resumed in January, 2023. Upcoming features include TypeScript support and PKCE support.
 
 ## Usage
 
@@ -24,47 +39,114 @@ Supports **Authorization Code** and **Implicit Grant** flows.
 
 The component displays as a simple button. Clicking it will open the authorization screen for your chosen provider, in a popup (thus avoiding losing your app's state).
 
-**Four props** are mandatory: `authorizationUrl`, `responseType`, `clientId`, `redirectUri`.
+**Four props** are mandatory: `authorizationUrl`, `responseType`, `clientId`, `redirectUri`. The `scope` might be required, depending on your OAuth 2 provider and which resources you want to access.
 
-The client ID is given by the OAuth2 provider (usually along with a client secret) when you set up an OAuth2 app (where you're asked to fill in the Redirect URI).
+The client ID is given by the OAuth2 provider (along with a client secret) when you set up an OAuth2 app (where you're asked to provide at least a Redirect URI).
+
+For the sake of simplicity, the code sample below demonstrates the use of the "Implicit Grant" flow (which is **not recommended**).
 
 ```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import OAuth2Login from 'react-simple-oauth2-login';
+// Assuming you're using React 18
+import React from "react";
+import ReactDOM from "react-dom/client";
+import OAuth2Login from "react-simple-oauth2-login";
 
-const onSuccess = response => console.log(response);
-const onFailure = response => console.error(response);
+const onSuccess = (response) => console.log(response);
+const onFailure = (response) => console.error(response);
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <OAuth2Login
     authorizationUrl="https://accounts.spotify.com/authorize"
     responseType="token"
     clientId="9822046hvr4lnhi7g07grihpefahy5jb"
     redirectUri="http://localhost:3000/oauth-callback"
     onSuccess={onSuccess}
-    onFailure={onFailure}/>,
-  document.getElementById('root')
+    onFailure={onFailure}
+  />,
+  document.getElementById("root")
 );
+
 ```
 
-### Example app
+### Example apps
 
-Check out the examples in the `example` directory. You'll need OAuth2 apps configured on whatever provider.
+> :warning: Please read carefully!
+>
+> * The example apps all use the [Yarn](https://yarnpkg.com/) package manager. **Install it first**, using `npm i -g yarn`.
+> * As of v0.6.0, you demo purposes, you can now run the examples "out of the box", without configuration, by using the "test OAuth2 server" (see below)&hellip;
+> ***However**, you'll need to carry out some setup to use the examples with **your chosen OAuth 2 provider**. Namely, **you'll need to create `.env.local` files** in the `client` and `server` directories of the examples you're using.
+> * As of now, examples support one OAuth 2 provider at a time (you'll have to invest extra work if you want your app to handle multiple providers).
 
-#### Client app
+Check out the examples in the `examples` directory. As of now, there are two:
+
+* `examples/implicit-grant` &rarr; demonstrates the Implicit Grant flow &mdash React app only.
+* `examples/authorization-code-grant` &rarr; demonstrates the Authorization Code flow &mdash; includes:
+
+    * a React app in the `client` subdirectory.
+    * a Node.js/Express app in the `server` subdirectory.
+
+#### Test OAuth 2 Server
+
+> :information_source: Needed **only** if you want to run the examples without adapting them to your OAuth 2.0 provider.
 
 Setup:
 
-* `cd example/client`
-* `npm install`
-* Copy `settings.sample.js` as `settings-code.js` and/or `settings-implicit.js`, depending on which flow you intend to test.
-* `npm start` (uses Parcel)
+* `cd examples/test-oauth2-server`
+* `yarn` &rarr; installs dependencies
+* `yarn start` &rarr; starts the server (should display `listening on 4000` when up)
 
-The `client` app provides examples for both flows. If you look at the two components, what really distinguishes how they use the component is:
+#### OAuth 2 app creation
+
+Any OAuth 2 provider will allow you to create OAuth 2 apps.
+
+E.g. on GitHub, you might head to [OAuth Apps](https://github.com/settings/developers) and click "New OAuth App".
+
+In your app's settings, set the "redirect URI" to:
+
+* `http://localhost:5173/oauth/callback` for the Implicit grant example,
+* `http://localhost:5174/oauth/callback` for the Authorization Code grant example,
+
+#### Implicit Grant example
+
+> Out of the box, this app runs on <http://localhost:5173>.
+
+Setup:
+
+* `cd examples/implicit-grant`
+* `yarn`
+* **Unless you're using the Test OAuth 2 Server**, you need to override the settings provided in `.env`, by creating a `.env.local` file.
+
+    * copy `.env` as `.env.local` and adapt to your needs.
+    * Change `VITE_OAUTH2_AUTHORIZATION_URL` to your provider's authorization screen URL.
+    * Change `VITE_OAUTH2_CLIENT_ID` to the client ID assigned to your app by your provider.
+    * Change `VITE_OAUTH2_SCOPE` to the scope(s) you need to provide to your access token.
+
+* `yarn dev` &rarr; starts the Vite dev server.
+
+#### Authorization Code example
+
+#### Client app
+
+> Out of the box, this app runs on <http://localhost:5174>.
+
+Setup:
+
+* `cd examples/authorization-code-grant/client`
+* `yarn`
+* **Unless you're using the Test OAuth 2 Server**, you need to override the settings provided in `.env`, by creating a `.env.local` file.
+
+    * copy `.env` as `.env.local` and adapt to your needs.
+    * Change `VITE_OAUTH2_AUTHORIZATION_URL` to your provider's authorization screen URL.
+    * Change `VITE_OAUTH2_CLIENT_ID` to the client ID assigned to your app by your provider.
+    * Change `VITE_OAUTH2_SCOPE` to the scope(s) you need to provide to your access token.
+
+* `yarn dev` &rarr; starts the Vite dev server.
+
+This app is very similar to the Implicit Grant example. What changes is:
 
 * The value of `responseType` prop,
 * The `fetch` call to send the code to the server in the Authorization Code example.
+
 
 #### Server app
 
@@ -198,7 +280,25 @@ Callback for every request.
 
 `{function}`
 
-Callback for successful login. An object will be passed as an argument to the callback, e.g. `{ "code": "..." }`.
+Callback for successful login. An object, containing the data extracted from the redirect URI, will be passed as an argument to the callback. Its content will vary depending on the auth flow you've specified via `responseType`.
+
+Example response payload for the Implicit Grant flow:
+
+```json
+{
+  "access_token": "BQCgzzEDhWZiIO6Y0a6aQjh6dGg6mMPwktuc0QWAm4eyv4oyfG45_Dm8ugqAp-c8n8uEi21XnIvy26Sk9h3faU_GKxWgQPEz59vcm2RCcndiM6bfyP-8hzD08uzMw4WEuKc56rcNVXP8P5XYgdn7fPDKMutAWyQOOtIdxom0vrWY",
+  "token_type": "Bearer",
+  "expires_in": "3600"
+}
+```
+
+Example response payload for the Authorization Code Grant flow:
+
+```json
+{
+  "code": "9421c4946b599e152a47"
+}
+```
 
 #### `onFailure`
 
@@ -207,6 +307,24 @@ Callback for successful login. An object will be passed as an argument to the ca
 Callback for errors raised during login.
 
 ## ChangeLog
+
+* v0.6.0 (published January 19th, 2023)
+
+    * **New feature** : "headless" mode &rarr; provide a hook in order to give users more control of the UI.
+    * **Deprecation notice**: since the headless mode relies on hooks, the minimal version of React is 16.8.
+    * Provide distinct Implicit Grant & Authorization Code examples.
+    * Full end-to-end testing with WebDriverIO.
+    * Fixes:
+
+        * prevent `scope=undefined` to be passed in the URL, if `scope` is not provided.
+        * URI-encode `redirectUri` prop.
+
+    * Internal/tooling:
+
+        * Use yarn instead of NPM.
+        * Use vite instead of parcel for examples.
+        * Update dev dependencies: Jest, WebDriverIO.
+        * Rewrite test OAuth2 server.
 
 * v0.5.4 (published November 14th, 2022)
 

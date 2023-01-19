@@ -31,7 +31,7 @@ export default function AuthorizationCodeExample() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  // You can test this with a GitHub OAuth2 app (provided test server supports GitHub and Spotify)
+  // You can test this with a GitHub OAuth 2 app (provided test server supports GitHub, Spotify & more)
   const onSuccess = ({ code }) =>
     fetch(`${appServerUrl}/github/token`, {
       method: 'POST',
