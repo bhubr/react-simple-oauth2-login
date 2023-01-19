@@ -83,6 +83,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "alxnik",
+      "name": "Alexandros Nikolopoulos",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2570042?v=4",
+      "profile": "https://github.com/alxnik",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -90,5 +99,6 @@
   "projectOwner": "bhubr",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
