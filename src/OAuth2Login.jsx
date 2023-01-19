@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import PopupWindow from './PopupWindow';
-import { toQuery } from './utils';
+import { toQuery, generateRandomString, pkceChallengeFromVerifier } from './utils';
 
 const responseTypeLocationKeys = {
   code: 'search',
@@ -23,10 +23,11 @@ class OAuth2Login extends Component {
     this.onFailure = this.onFailure.bind(this);
   }
 
-  onBtnClick() {
+  async onBtnClick() {
     const {
       buttonText,
       authorizationUrl,
+      tokenUrl,
       clientId,
       scope,
       redirectUri,
@@ -46,6 +47,19 @@ class OAuth2Login extends Component {
     };
     if (state) {
       payload.state = state;
+    }
+    if (tokenUrl) {
+      const pkceState = generateRandomString();
+      localStorage.setItem('pkce_state', pkceState);
+
+      // Create and store a new PKCE code_verifier (the plaintext random secret)
+      const pkceCodeVerifier = generateRandomString();
+      localStorage.setItem('pkce_code_verifier', pkceCodeVerifier);
+
+      // Hash and base64-urlencode the secret to use as the challenge
+      const codeChallenge = await pkceChallengeFromVerifier(pkceCodeVerifier);
+      payload.code_challenge = codeChallenge;
+      payload.code_challenge_method = 'S256';
     }
     const search = toQuery(payload);
     const width = popupWidth;
@@ -78,7 +92,9 @@ class OAuth2Login extends Component {
   }
 
   onSuccess(data) {
-    const { responseType, onSuccess, isCrossOrigin } = this.props;
+    const {
+      responseType, onSuccess, isCrossOrigin, tokenUrl,
+    } = this.props;
     const responseKey = responseTypeDataKeys[responseType];
 
     // Cross origin requests will already handle this, let's just return the data
@@ -87,12 +103,44 @@ class OAuth2Login extends Component {
       return this.onFailure(new Error(`'${responseKey}' not found in received data`));
     }
 
+    if (tokenUrl) {
+      return this.requestsAccessToken(data.code);
+    }
+
     return onSuccess(data);
   }
 
   onFailure(error) {
     const { onFailure } = this.props;
     onFailure(error);
+  }
+
+  requestsAccessToken(code) {
+    const {
+      clientId, redirectUri, tokenUrl, onSuccess, onFailure,
+    } = this.props;
+    const payload = {
+      grant_type: 'authorization_code',
+      code,
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      code_verifier: localStorage.getItem('pkce_code_verifier'),
+    };
+    fetch(tokenUrl, {
+      method: 'POST',
+      body: toQuery(payload),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Could not get access token: ${res.status} -  ${res.statusText}`);
+        }
+        return res.json();
+      })
+      .then(onSuccess)
+      .catch(onFailure);
   }
 
   render() {
@@ -130,11 +178,13 @@ OAuth2Login.defaultProps = {
   isCrossOrigin: false,
   extraParams: {},
   onRequest: () => {},
+  tokenUrl: '',
 };
 
 OAuth2Login.propTypes = {
   id: PropTypes.string,
   authorizationUrl: PropTypes.string.isRequired,
+  tokenUrl: PropTypes.string,
   clientId: PropTypes.string.isRequired,
   redirectUri: PropTypes.string.isRequired,
   responseType: PropTypes.oneOf(['code', 'token']).isRequired,
