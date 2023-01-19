@@ -59,7 +59,7 @@ export default function AuthorizationCodeExample() {
       .catch(setError);
 
   return (
-    <div className="column">
+    <div>
       {error && <ErrorAlert error={error} />}
       {(!authorizationUrl || !clientId || !redirectUri) && (
         <ErrorAlert

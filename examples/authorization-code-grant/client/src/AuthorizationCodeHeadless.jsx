@@ -69,7 +69,7 @@ export default function AuthorizationCodeHeadless() {
   });
 
   return (
-    <div className="column">
+    <div>
       {error && <ErrorAlert error={error} />}
       {(!authorizationUrl || !clientId || !redirectUri) && (
         <ErrorAlert
