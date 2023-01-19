@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import OAuth2Login from '../OAuth2Login';
+import OAuth2Login from '../../src/OAuth2Login';
 
 const authorizationUrl = 'https://foo.test/authorize';
 const onSuccess = () => {};
