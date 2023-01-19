@@ -1,6 +1,6 @@
 # React Simple OAuth2 Login
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 > :trophy: **Credits**: this component is based on [React GitHub Login](https://github.com/checkr/react-github-login) by [Checkr](https://checkr.com/).
@@ -259,6 +259,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/arudrakalyan"><img src="https://avatars.githubusercontent.com/u/4880855?v=4?s=100" width="100px;" alt="Kalyan"/><br /><sub><b>Kalyan</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/issues?q=author%3Aarudrakalyan" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/alxnik"><img src="https://avatars.githubusercontent.com/u/2570042?v=4?s=100" width="100px;" alt="Alexandros Nikolopoulos"/><br /><sub><b>Alexandros Nikolopoulos</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/issues?q=author%3Aalxnik" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://rigoli.io"><img src="https://avatars.githubusercontent.com/u/10620399?v=4?s=100" width="100px;" alt="Jacopo Rigoli"/><br /><sub><b>Jacopo Rigoli</b></sub></a><br /><a href="https://github.com/bhubr/react-simple-oauth2-login/issues?q=author%3Adesoss" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
