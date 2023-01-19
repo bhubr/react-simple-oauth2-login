@@ -20,9 +20,11 @@ Supports **Authorization Code** and **Implicit Grant** flows.
     * [Props](#props)
 * [ChangeLog](#changelog)
 
-## Contributors welcome
+## Contributors welcome!
 
-If you have ideas and/or JavaScript/TypeScript coding skills, your help is more than welcome! Please let me know by opening a [discussion](https://github.com/bhubr/react-simple-oauth2-login/discussions) on the GitHub repo.
+If you have ideas, feature requests, knowledge of how to implement OAuth 2 flows in real-world apps, and/or JavaScript/TypeScript coding skills, your contribution is more than welcome!
+
+Please let me know by opening a [discussion](https://github.com/bhubr/react-simple-oauth2-login/discussions) or an [issue](https://github.com/bhubr/react-simple-oauth2-login/issues) on the GitHub repo.
 
 ## Features
 
@@ -39,13 +41,17 @@ More will come soon: after a long hiatus, work on this package has resumed in Ja
 
 The component displays as a simple button. Clicking it will open the authorization screen for your chosen provider, in a popup (thus avoiding losing your app's state).
 
-**Four props** are mandatory: `authorizationUrl`, `responseType`, `clientId`, `redirectUri`. The `scope` might be required, depending on your OAuth 2 provider and which resources you want to access.
+**Four "setting" props** are mandatory: `authorizationUrl`, `responseType`, `clientId`, `redirectUri`. The `scope` might be required, depending on your OAuth 2 provider and which resources you want to access.
+
+In addition, **two callback props** are required: `onSuccess` and `onFailure`.
 
 The client ID is given by the OAuth2 provider (along with a client secret) when you set up an OAuth2 app (where you're asked to provide at least a Redirect URI).
 
-For the sake of simplicity, the code sample below demonstrates the use of the "Implicit Grant" flow (which is **not recommended**).
+For the sake of simplicity, the code samples below demonstrate the use of the "Implicit Grant" flow (which is **not recommended**).
 
-```js
+#### 1. Using the `OAuth2Login` component
+
+```jsx
 // Assuming you're using React 18
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -59,13 +65,48 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     authorizationUrl="https://accounts.spotify.com/authorize"
     responseType="token"
     clientId="9822046hvr4lnhi7g07grihpefahy5jb"
-    redirectUri="http://localhost:3000/oauth-callback"
+    redirectUri="http://localhost:5173/oauth/callback"
     onSuccess={onSuccess}
     onFailure={onFailure}
   />,
   document.getElementById("root")
 );
+```
 
+#### 2. Using the `useOAuth2Login` hook
+
+From v0.6.0, you can use the `useOAuth2Login` hook instead of the component. The "props" are simply passed as an object to the hook.
+
+```jsx
+// Assuming you're using React 18
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { useOAuth2Login } from 'react-simple-oauth2-login';
+
+const onSuccess = (response) => console.log(response);
+const onFailure = (response) => console.error(response);
+
+const App = () => {
+  const { activate } = useOAuth2Login({
+    authorizationUrl: 'https://accounts.spotify.com/authorize',
+    responseType: 'token',
+    clientId: '8671ba9591894766bfcb0c15ce04ff4e',
+    redirectUri: 'http://localhost:5173/oauth/callback',
+    onSuccess,
+    onFailure,
+  });
+
+  return (
+    <button type="button" onClick={activate}>
+      OAuth 2 Login
+    </button>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <App />,
+  document.getElementById('root')
+);
 ```
 
 ### Example apps
@@ -73,9 +114,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 > :warning: Please read carefully!
 >
 > * The example apps all use the [Yarn](https://yarnpkg.com/) package manager. **Install it first**, using `npm i -g yarn`.
-> * As of v0.6.0, you demo purposes, you can now run the examples "out of the box", without configuration, by using the "test OAuth2 server" (see below)&hellip;
-> ***However**, you'll need to carry out some setup to use the examples with **your chosen OAuth 2 provider**. Namely, **you'll need to create `.env.local` files** in the `client` and `server` directories of the examples you're using.
+> * As of v0.6.0, for demo purposes, you can now run the examples "out of the box", without configuration, by using the "test OAuth2 server" (see below)&hellip;
+> * **However**, you'll need to carry out some setup to use the examples with **your chosen OAuth 2 provider**. Namely, **you'll need to create `.env.local` files** in the directories of the examples you're using.
 > * As of now, examples support one OAuth 2 provider at a time (you'll have to invest extra work if you want your app to handle multiple providers).
+> * The way we demonstrate Auth Code flow in the examples isn't the only possible approach. I'll try to devote some time to investigating better practices. Again, if you have some experience on the topic, please let me know!
 
 Check out the examples in the `examples` directory. As of now, there are two:
 
@@ -119,49 +161,44 @@ Setup:
     * copy `.env` as `.env.local` and adapt to your needs.
     * Change `VITE_OAUTH2_AUTHORIZATION_URL` to your provider's authorization screen URL.
     * Change `VITE_OAUTH2_CLIENT_ID` to the client ID assigned to your app by your provider.
-    * Change `VITE_OAUTH2_SCOPE` to the scope(s) you need to provide to your access token.
+    * Change `VITE_OAUTH2_SCOPE` to the scope(s) you need to provide to your access token (e.g. `playlist-read-private` for Spotify).
+    * Change `VITE_RESOURCE_SERVER_URL` to the origin of the server hosting resources (e.g. `https://api.spotify.com`)
+    * Change `VITE_RESOURCE_PATHNAME` to a resource endpoint, relative to the previous setting (e.g. `/v1/me/playlists`)
 
 * `yarn dev` &rarr; starts the Vite dev server.
 
 #### Authorization Code example
 
-#### Client app
+##### Client app
 
 > Out of the box, this app runs on <http://localhost:5174>.
 
-Setup:
+Setup is the same as for the Implicit Grant example, except:
 
-* `cd examples/authorization-code-grant/client`
-* `yarn`
-* **Unless you're using the Test OAuth 2 Server**, you need to override the settings provided in `.env`, by creating a `.env.local` file.
+* The app is located under `examples/authorization-code-grant/client`,
+* In the `.env(.local)` file, there's an additional parameter, `VITE_APP_SERVER_URL`, pointing to your server which sends the auth code to the OAuth 2 provider, in order to get an access token.
 
-    * copy `.env` as `.env.local` and adapt to your needs.
-    * Change `VITE_OAUTH2_AUTHORIZATION_URL` to your provider's authorization screen URL.
-    * Change `VITE_OAUTH2_CLIENT_ID` to the client ID assigned to your app by your provider.
-    * Change `VITE_OAUTH2_SCOPE` to the scope(s) you need to provide to your access token.
-
-* `yarn dev` &rarr; starts the Vite dev server.
-
-This app is very similar to the Implicit Grant example. What changes is:
+This app itself is very similar to the Implicit Grant example. What changes is:
 
 * The value of `responseType` prop,
-* The `fetch` call to send the code to the server in the Authorization Code example.
+* The `fetch` call to send the code to the server.
 
+##### Server app
 
-#### Server app
+The `server` app is given as an example to test the **Authorization Code flow**. It currently supports getting access tokens from GitHub or Spotify, but probably many others. The only difference is that Spotify requires the client ID & secret to be sent in a header, while GitHub expects them in the request body.
 
-The `server` app is only given as an example to test the **Authorization Code flow**. It currently supports getting access tokens from GitHub or Spotify. In a real-world app, you'll probably want to use [Passport](http://www.passportjs.org/).
+In a real-world app, if your backend is based on Node.js, you might want to use [Passport](http://www.passportjs.org/).
 
-**Right after** you run `npm install`, you need to copy `.env.sample` as `.env`, and modify the values according to your needs.
+After you run `yarn`, you need to copy `.env` as `.env.local`, and modify the values according to your needs.
 
 * `OAUTH_TOKEN_URL` is the URL where you should POST the code obtained from the authorization screen,
 * `OAUTH_CLIENT_ID` is the OAuth2 Client ID,
 * `OAUTH_CLIENT_SECRET` is the OAuth2 Client Secret,
-* `OAUTH_REDIRECT_URI` is the OAuth2 Redirect URI (thanks Captain Obvious).
+* `OAUTH_REDIRECT_URI` is the OAuth2 Redirect URI (thanks Captain Obvious!).
 
 The Client ID and Redirect URI should match that of the client app.
 
-Then you can run `npm start`.
+Then you can run `yarn dev` or `yarn start`.
 
 ### Cross Origin / Same-origin Policy
 
@@ -310,7 +347,7 @@ Callback for errors raised during login.
 
 * v0.6.0 (published January 19th, 2023)
 
-    * **New feature** : "headless" mode &rarr; provide a hook in order to give users more control of the UI.
+    * **New feature** : "headless" mode &rarr; provide a hook in order to give users more control. Again, shout out to [jshthornton](https://github.com/jshthornton) who implemented this feature.
     * **Deprecation notice**: since the headless mode relies on hooks, the minimal version of React is 16.8.
     * Provide distinct Implicit Grant & Authorization Code examples.
     * Full end-to-end testing with WebDriverIO.
@@ -340,7 +377,7 @@ Callback for errors raised during login.
 
 * v0.5.1 (published August 25th, 2021)
 
-    * Allow to pass extra params in the query string, via the `extraParams` prop. Thanks to [jshthornton](https://github.com/jshthornton)
+    * Allow to pass extra params in the query string, via the `extraParams` prop. Thanks to [jshthornton](https://github.com/jshthornton).
 
 * v0.5.0 (published June 18th, 2021)
 
