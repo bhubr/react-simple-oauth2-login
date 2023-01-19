@@ -1,25 +1,25 @@
-import express, { NextFunction, Request, Response } from "express";
-import path from "path";
-import util from "util";
-import passport from "passport";
-import cors from "cors";
-import session from "express-session";
-import { Strategy as LocalStrategy } from "passport-local";
-import morgan from "morgan";
+import express, { NextFunction, Request, Response } from 'express';
+import path from 'path';
+import util from 'util';
+import passport from 'passport';
+import cors from 'cors';
+import session from 'express-session';
+import { Strategy as LocalStrategy } from 'passport-local';
+import morgan from 'morgan';
 import {
   requestFromExpress,
   handleExpressError,
   handleExpressResponse,
-} from "@jmondi/oauth2-server/dist/adapters/express";
-import { body, query, validationResult } from "express-validator";
+} from '@jmondi/oauth2-server/dist/adapters/express';
+import { body, query, validationResult } from 'express-validator';
 
-import { inMemoryAuthorizationServer } from "./oauth_authorization_server";
-import router from "./routes";
-import userModel, { MyUser } from "./models/user";
+import { inMemoryAuthorizationServer } from './oauth_authorization_server';
+import router from './routes';
+import userModel, { MyUser } from './models/user';
 import {
   AuthorizationRequest,
   generateRandomToken,
-} from "@jmondi/oauth2-server";
+} from '@jmondi/oauth2-server';
 
 // Extend express-session so that we can store
 // auth request in session
@@ -27,7 +27,7 @@ type AuthorizationRequestWithUser = AuthorizationRequest & {
   user?: MyUser;
   isAuthorizationApproved?: boolean;
 };
-declare module "express-session" {
+declare module 'express-session' {
   interface SessionData {
     authRequest?: AuthorizationRequestWithUser;
     user?: MyUser;
@@ -37,14 +37,14 @@ declare module "express-session" {
 
 const app = express();
 
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(
   session({
     resave: true,
-    secret: "dummy-secret",
+    secret: 'dummy-secret',
     saveUninitialized: true,
   })
 );
@@ -52,8 +52,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(router);
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "/views"));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/views'));
 
 interface PassportCallbackMessage {
   message: string;
@@ -70,17 +70,17 @@ interface PassportCallback {
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email",
+      usernameField: 'email',
     },
     async (email: string, password: string, done: PassportCallback) => {
       userModel
         .findOneByEmail(email)
         .then((user: MyUser) => {
           if (!user) {
-            return done(null, false, { message: "Incorrect email." });
+            return done(null, false, { message: 'Incorrect email.' });
           }
           if (user.password !== password) {
-            return done(null, false, { message: "Incorrect password." });
+            return done(null, false, { message: 'Incorrect password.' });
           }
           return done(null, user);
         })
@@ -112,15 +112,14 @@ passport.deserializeUser((id: string, done: PassportCallback) => {
 const authorizationServer = inMemoryAuthorizationServer;
 
 app.get(
-  "/authorize",
+  '/authorize',
   // username must be an email
-  query("client_id").isString(),
+  query('client_id').isString(),
   // password must be at least 5 chars long
-  query("redirect_uri").isURL({ require_tld: false }),
-  query("response_type").isIn(["token", "code"]),
+  query('redirect_uri').isURL({ require_tld: false }),
+  query('response_type').isIn(['token', 'code']),
 
   async (req: Request, res: Response) => {
-    console.log(">> authorize", req.session);
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -140,14 +139,13 @@ app.get(
 
       if (!user) {
         const redirectTo = util.format(
-          "/authorize?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s",
+          '/authorize?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s',
           req.query.client_id,
           req.query.redirect_uri,
           req.query.response_type,
           req.query.scope
         );
         req.session.save();
-        console.log(">>> session save", req.session);
         return res.redirect(
           `/auth/login?redirect=${encodeURIComponent(redirectTo)}`
         );
@@ -157,10 +155,6 @@ app.get(
       // You will probably want to redirect the user at this point to a login endpoint.
 
       const { authRequest } = req.session;
-      // Once the user has logged in set the user on the AuthorizationRequest
-      console.log(
-        "Once the user has logged in set the user on the AuthorizationRequest"
-      );
       // @ts-ignore
       authRequest.user = req.user;
 
@@ -170,7 +164,7 @@ app.get(
       // At this point you should redirect the user to an authorization page.
       // This form will ask the user to approve the client and the scopes requested.
       if (!authRequest.isAuthorizationApproved) {
-        return res.render("authorize", {
+        return res.render('authorize', {
           // @ts-ignore
           fullname: req.user.name,
           app: {
@@ -183,49 +177,47 @@ app.get(
           redirect_uri: req.query.redirect_uri,
           response_type: req.query.response_type,
           verification_token: verificationToken,
-          grant_type: "authorization_code",
+          grant_type: 'authorization_code',
           // scope: req.query.scope,
           user,
         });
       } else {
         const oauthResponse =
           await authorizationServer.completeAuthorizationRequest(authRequest);
-        console.log(">> oauth response", authRequest, oauthResponse);
         return handleExpressResponse(res, oauthResponse);
       }
     } catch (e) {
-      console.error(">> authorize failed", e);
+      console.error('>> authorize failed', e);
       handleExpressError(e, res);
     }
   }
 );
 
 app.post(
-  "/authorize",
-  body("verificationToken"),
+  '/authorize',
+  body('verificationToken'),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    console.log(">>> POST authorize", req.session);
     const { authRequest, verificationToken: storedVerificationToken } =
       req.session;
 
     const validationErrors = [];
     if (!authRequest) {
       validationErrors.push({
-        msg: "Invalid value",
-        param: "authRequest",
-        location: "session",
+        msg: 'Invalid value',
+        param: 'authRequest',
+        location: 'session',
       });
     }
     if (!storedVerificationToken) {
       validationErrors.push({
-        msg: "Invalid value",
-        param: "verificationToken",
-        location: "session",
+        msg: 'Invalid value',
+        param: 'verificationToken',
+        location: 'session',
       });
     }
 
@@ -240,7 +232,7 @@ app.post(
       return res.status(400).json({
         errors: [
           {
-            msg: "Invalid verification token",
+            msg: 'Invalid verification token',
           },
         ],
       });
@@ -254,7 +246,12 @@ app.post(
     try {
       const oauthResponse =
         await authorizationServer.completeAuthorizationRequest(authRequest);
-      delete req.session.authRequest;
+      // We're done *only* in the case of Implicit Grant
+      // For Auth Code flow, keep the authRequest in session
+      // @ts-ignore
+      if (req.session.authRequest.grantTypeId === 'implicit') {
+        delete req.session.authRequest;
+      }
       delete req.session.verificationToken;
       return handleExpressResponse(res, oauthResponse);
     } catch (err) {
@@ -265,7 +262,7 @@ app.post(
   }
 );
 
-app.post("/token", async (req: Request, res: Response) => {
+app.post('/token', async (req: Request, res: Response) => {
   try {
     const oauthResponse = await authorizationServer.respondToAccessTokenRequest(
       req
@@ -282,11 +279,11 @@ app.post("/token", async (req: Request, res: Response) => {
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500);
-  res.render("error", { err });
+  res.render('error', { err });
 });
 
-process.on("uncaughtException", (error) => {
-  console.error("UNCAUGHT EXCEPTION", error.stack);
+process.on('uncaughtException', (error) => {
+  console.error('UNCAUGHT EXCEPTION', error.stack);
   process.exit(1);
 });
 

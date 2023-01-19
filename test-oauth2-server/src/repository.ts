@@ -12,10 +12,10 @@ import {
   OAuthUserRepository,
   DateInterval,
   ExtraAccessTokenFields,
-} from "@jmondi/oauth2-server";
-import { inMemoryDatabase } from "./database";
+} from '@jmondi/oauth2-server';
+import { inMemoryDatabase } from './database';
 
-const oneHourInFuture = new DateInterval("1h").getEndDate();
+const oneHourInFuture = new DateInterval('1h').getEndDate();
 
 export const inMemoryClientRepository: OAuthClientRepository = {
   async getByIdentifier(clientId: string): Promise<OAuthClient> {
@@ -41,15 +41,9 @@ export const inMemoryClientRepository: OAuthClientRepository = {
 
 export const inMemoryScopeRepository: OAuthScopeRepository = {
   async getAllByIdentifiers(scopeNames: string[]): Promise<OAuthScope[]> {
-    console.log(
-      ">> scopeRepository.getAllByIdentifiers",
-      scopeNames,
-      Object.values(inMemoryDatabase.scopes)
-    );
     const res = Object.values(inMemoryDatabase.scopes).filter((scope) =>
       scopeNames.includes(scope.name)
     );
-    console.log(">> scopeRepository.getAllByIdentifiers", res);
     return res;
   },
   async finalize(
@@ -75,7 +69,7 @@ export const inMemoryAccessTokenRepository: OAuthTokenRepository = {
     user: OAuthUser
   ): Promise<OAuthToken> {
     return <OAuthToken>{
-      accessToken: "new token",
+      accessToken: 'new token',
       accessTokenExpiresAt: oneHourInFuture,
       client,
       user,
@@ -90,7 +84,7 @@ export const inMemoryAccessTokenRepository: OAuthTokenRepository = {
     const token = Object.values(inMemoryDatabase.tokens).find(
       (token) => token.refreshToken === refreshTokenToken
     );
-    if (!token) throw new Error("token not found");
+    if (!token) throw new Error('token not found');
     return token;
   },
   async isRefreshTokenRevoked(token: OAuthToken): Promise<boolean> {
@@ -100,8 +94,8 @@ export const inMemoryAccessTokenRepository: OAuthTokenRepository = {
     token: OAuthToken,
     _: OAuthClient
   ): Promise<OAuthToken> {
-    token.refreshToken = "refreshtokentoken";
-    token.refreshTokenExpiresAt = new DateInterval("1h").getEndDate();
+    token.refreshToken = 'refreshtokentoken';
+    token.refreshTokenExpiresAt = new DateInterval('1h').getEndDate();
     inMemoryDatabase.tokens[token.accessToken] = token;
     return token;
   },
@@ -114,10 +108,10 @@ export const inMemoryAuthCodeRepository: OAuthAuthCodeRepository = {
     _scopes: OAuthScope[]
   ): OAuthAuthCode {
     return {
-      code: "my-super-secret-auth-code",
+      code: 'my-super-secret-auth-code',
       user,
       client,
-      redirectUri: "",
+      redirectUri: '',
       codeChallenge: undefined,
       codeChallengeMethod: undefined,
       expiresAt: oneHourInFuture,
@@ -147,7 +141,11 @@ export const inMemoryUserRepository: OAuthUserRepository = {
     _client?: OAuthClient
   ): Promise<OAuthUser | undefined> {
     const user = inMemoryDatabase.users[identifier];
-    if (user?.password !== password) return;
+
+    if (password && user?.password !== password) {
+      console.warn("Password was requested but passwords don't match");
+      return;
+    }
     return user;
   },
   async extraAccessTokenFields(
@@ -155,6 +153,7 @@ export const inMemoryUserRepository: OAuthUserRepository = {
   ): Promise<ExtraAccessTokenFields | undefined> {
     return {
       email: user.email,
+      sub: user.id,
     };
   },
 };

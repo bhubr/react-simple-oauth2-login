@@ -2,14 +2,15 @@ import {
   AuthorizationServer,
   DateInterval,
   JwtService,
-} from "@jmondi/oauth2-server";
+} from '@jmondi/oauth2-server';
 import {
   inMemoryAccessTokenRepository,
   inMemoryAuthCodeRepository,
   inMemoryClientRepository,
   inMemoryScopeRepository,
   inMemoryUserRepository,
-} from "./repository";
+} from './repository';
+import { jwtSecret } from './settings';
 
 const clientRepository = inMemoryClientRepository;
 const authCodeRepository = inMemoryAuthCodeRepository;
@@ -17,7 +18,7 @@ const tokenRepository = inMemoryAccessTokenRepository;
 const scopeRepository = inMemoryScopeRepository;
 const userRepository = inMemoryUserRepository;
 
-const jwtService = new JwtService("secret secret secret");
+const jwtService = new JwtService(jwtSecret);
 
 const authorizationServer = new AuthorizationServer(
   authCodeRepository,
@@ -25,18 +26,19 @@ const authorizationServer = new AuthorizationServer(
   tokenRepository,
   scopeRepository,
   userRepository,
-  jwtService
+  jwtService,
+  { requiresPKCE: false }
 );
 
 authorizationServer.enableGrantType(
-  "authorization_code",
-  new DateInterval("1m")
+  'authorization_code',
+  new DateInterval('1m')
 );
 // authorizationServer.enableGrantType(
 //   "client_credentials",
 //   new DateInterval("1m")
 // );
-authorizationServer.enableGrantType("implicit", new DateInterval("1m"));
+authorizationServer.enableGrantType('implicit', new DateInterval('1m'));
 // authorizationServer.enableGrantType("password", new DateInterval("1m"));
 // authorizationServer.enableGrantType("refresh_token", new DateInterval("1m"));
 

@@ -4,10 +4,10 @@ import {
   OAuthScope,
   OAuthToken,
   OAuthUser,
-} from "@jmondi/oauth2-server";
+} from '@jmondi/oauth2-server';
 
-import { users } from "./models/user";
-import { apps } from "./models/app";
+import { users } from './models/user';
+import { apps } from './models/app';
 
 export interface InMemory {
   users: { [id: string]: OAuthUser };
@@ -22,16 +22,18 @@ export interface InMemory {
 export const inMemoryDatabase: InMemory = {
   clients: {
     // @ts-ignore
-    "peggy-app": apps[0],
+    'implicit-grant-0001': apps[0],
+    // @ts-ignore
+    'authorization-code-0002': apps[1],
   },
   authCodes: {},
   tokens: {},
   scopes: {
-    "user-email": { name: "user-email" },
+    'user-email': { name: 'user-email' },
   },
   users: {
-    "uuid-0001": users[0],
-    "uuid-0002": users[1],
+    'uuid-0001': users[0],
+    'uuid-0002': users[1],
   },
   flush() {
     this.clients = {};
