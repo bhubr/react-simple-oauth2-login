@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders defaults 1`] = `
+<button
+  class=""
+  type="button"
+>
+  Login
+</button>
+`;
+
+exports[`Renders with \`buttonText\` 1`] = `
+<button
+  class=""
+  type="button"
+>
+  Foo
+</button>
+`;
+
+exports[`Renders with \`className\` 1`] = `
+<button
+  class="foobar"
+  type="button"
+>
+  Login
+</button>
+`;
+
+exports[`Renders with custom render function 1`] = `
+<div
+  class="theClassName"
+>
+  <a
+    href="#"
+  >
+    Login
+  </a>
+</div>
+`;
