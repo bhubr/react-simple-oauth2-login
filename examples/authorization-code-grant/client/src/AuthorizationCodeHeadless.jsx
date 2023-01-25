@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useMemo, useState } from 'react';
 
-// import OAuth2Login from 'react-simple-oauth2-login';
-import OAuth2Login from '../../../../src/OAuth2Login';
+// import {useOAuth2Login} from 'react-simple-oauth2-login';
 import useOAuth2Login from '../../../../src/useOAuth2Login';
 import ErrorAlert from './ErrorAlert';
+import ThemedJSONTree from './ThemedJSONTree';
 import {
   authorizationUrl,
   clientId,
@@ -14,15 +14,11 @@ import {
   resourcePathname,
   scope,
 } from './settings';
+import { fetchResource, requestAccessToken } from './fetch-helpers';
+import MissingParamsAlert from './MissingParamsAlert';
 
-function PreviewJSON({ data }) {
-  const formattedData = useMemo(() => JSON.stringify(data, null, 2), []);
-  return (
-    <pre>
-      <code>{formattedData}</code>
-    </pre>
-  );
-}
+const tokenUrl = `${appServerUrl}/github/token`;
+const resourceUrl = `${resourceServerUrl}${resourcePathname}`;
 
 export default function AuthorizationCodeHeadless() {
   const extraParams = scope ? { scope } : {};
@@ -31,32 +27,20 @@ export default function AuthorizationCodeHeadless() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  // You can test this with a GitHub OAuth2 app (provided test server supports GitHub and Spotify)
-  const onSuccess = ({ code }) =>
-    fetch(`${appServerUrl}/github/token`, {
-      method: 'POST',
-      body: JSON.stringify({ code }),
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setAccessToken(data.access_token);
-        return data.access_token;
-      })
-      .then((token) =>
-        fetch(`${resourceServerUrl}${resourcePathname}`, {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            authorization: `Bearer ${token}`,
-          },
-        })
-      )
-      .then((res) => res.json())
-      .then(setData)
-      .catch(setError);
+  // Called when the authorization step succeeds
+  // (i.e. we are redirected to the callback URI with auth code in the URL)
+  const onSuccess = async ({ code }) => {
+    try {
+      // Send auth code to our server to get an access token in exchange
+      const { access_token: token } = await requestAccessToken(tokenUrl, code);
+      // Store it for later use
+      setAccessToken(token);
+      const resBody = await fetchResource(resourceUrl, token);
+      setData(resBody);
+    } catch (err) {
+      setError(err);
+    }
+  };
 
   const { activate } = useOAuth2Login({
     ...extraParams,
@@ -69,16 +53,12 @@ export default function AuthorizationCodeHeadless() {
   });
 
   return (
-    <div>
-      {error && <ErrorAlert error={error} />}
+    <div className="column">
+      {/* In case some required parameters are missing */}
       {(!authorizationUrl || !clientId || !redirectUri) && (
-        <ErrorAlert
-          error={{
-            message:
-              'Missing at least one of `authorizationUrl`, `clientId`, `redirectUri`',
-          }}
-        />
+        <MissingParamsAlert />
       )}
+      {error && <ErrorAlert error={error} />}
       <button
         id="authorization-code-headless-btn"
         type="button"
@@ -96,7 +76,7 @@ export default function AuthorizationCodeHeadless() {
         <div>
           <h3>Retrieved data</h3>
           <p>Obtained from token-protected API</p>
-          <PreviewJSON data={data} />
+          <ThemedJSONTree data={data} />
         </div>
       )}
     </div>
