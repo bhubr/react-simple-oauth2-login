@@ -58,7 +58,7 @@
     "babel-jest": "^29.7.0",
     "babel-loader": "^8.0.6",
     "cheerio": "^1.0.0-rc.12",
-    "concurrently": "^6.2.0",
+    "concurrently": "^9.1.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.8",
     "eslint": "^8.57.0",
@@ -73,7 +73,7 @@
     "react-css-modules": "^4.5.2",
     "react-dom": "^16.0.0",
     "react-test-renderer": "^16.14.0",
-    "start-server-and-test": "^1.12.5",
+    "start-server-and-test": "^2.0.12",
     "webpack": "^4.47.0",
     "webpack-cli": "^3.3.12"
   }
