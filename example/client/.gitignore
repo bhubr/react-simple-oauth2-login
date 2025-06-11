@@ -3,3 +3,4 @@ dist
 .cache
 settings-implicit.js
 settings-code.js
+.parcel-cache/
